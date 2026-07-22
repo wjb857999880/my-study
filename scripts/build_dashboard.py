@@ -128,7 +128,6 @@ def load_entries():
         fields, parse_errors = parse_frontmatter(text)
         entry = dict(fields)
         entry["_source"] = md
-        entry["_rel"] = str(md.relative_to(REPO_ROOT))
         entry["_warns"] = parse_errors + validate(fields, md)
         entries.append(entry)
         title = entry.get("title") or md.name
