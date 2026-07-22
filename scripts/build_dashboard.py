@@ -105,7 +105,7 @@ def validate(fields, source):
         warns.append("target 非法: %s（应为 %s）" % (fields["target"], LEVEL_ORDER))
     if fields.get("importance") and fields["importance"] not in IMPORTANCE_ORDER:
         warns.append("importance 非法: %s（应为 %s）" % (fields["importance"], IMPORTANCE_ORDER))
-    for f in ("last_reviewed", "next_review"):
+    for f in ("last_reviewed", "next_review", "last_assessed"):
         v = fields.get(f)
         if v and not _is_date(v):
             warns.append("%s 日期格式错误: %s（应为 YYYY-MM-DD）" % (f, v))
@@ -172,6 +172,29 @@ def render(entries, global_warns, today):
         lines.append("## ✅ 校验通过（无告警）")
     lines.append("")
 
+    # 考核进度
+    assessed = [e for e in entries
+                if e.get("last_assessed") and _is_date(e.get("last_assessed"))]
+    pending = [e for e in entries if e not in assessed]
+    lines.append("## 考核进度")
+    lines.append("")
+    lines.append("> 已考核 %d / 待考核 %d（待考核默认为了解）"
+                 % (len(assessed), len(pending)))
+    lines.append("")
+    if pending:
+        lines.append("**待考核清单：**")
+        lines.append("")
+        lines.append("| 知识点 | 领域 | 目标 |")
+        lines.append("|--------|------|------|")
+        for e in sorted(pending, key=lambda e: e.get("title") or ""):
+            dom = DOMAIN_LABEL.get(e.get("domain", ""), e.get("domain", "") or "?")
+            lines.append("| %s | %s | %s |"
+                         % (e.get("title", "?"), dom, e.get("target", "?")))
+        lines.append("")
+    else:
+        lines.append("_（所有知识点均已考核）_")
+        lines.append("")
+
     total = len(entries)
 
     # 1. 熟练度分布
@@ -183,6 +206,8 @@ def render(entries, global_warns, today):
         n = sum(1 for e in entries if e.get("level") == lvl)
         pct = ("%.0f%%" % (n / total * 100)) if total else "0%"
         lines.append("| %s | %d | %s |" % (lvl, n, pct))
+    lines.append("")
+    lines.append("> 注：含待考核知识点（默认为了解）；level 仅考核后由 AI 判定。")
     lines.append("")
 
     # 2. 领域分布
