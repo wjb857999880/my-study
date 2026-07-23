@@ -31,11 +31,13 @@ my-study/
 
 脚本内部数值映射：了解=1，熟悉=2，掌握=3，精通=4（用于计算平均熟练度、判断 `level < target`）。
 
+> **level 为考核验证**：新增知识点初始化为「了解」；熟练度只在通过 `/考核`（AI 当考官、按表现判定）后提升，不是自报。
+
 ## 新增一个知识点
 
 1. 复制 `templates/skill-template.md` 到对应领域目录，命名 `主题-子主题.md`（如 `Kotlin-协程.md`）。
-2. 填写 frontmatter（`title`/`domain`/`level`/`target`/`importance`/`last_reviewed`/`next_review` 必填）。
-3. 正文至少写「自评依据」——为什么评这个 level，举一个做过的项目/排查过的问题。
+2. 填写 frontmatter（`title`/`domain`/`target`/`importance`/`last_reviewed`/`next_review` 必填）；`level` 保持模板默认「了解」、`last_assessed` 留空（待考核）。
+3. 正文写「概述」即可；「考核记录」段初始为「（尚未考核）」，考核后由 skill 自动填写。
 
 ## 生成总看板
 
@@ -44,6 +46,22 @@ python3 scripts/build_dashboard.py
 ```
 
 生成 `DASHBOARD.md`，含：① 熟练度分布 ② 领域分布 ③ 复习清单（🚨逾期 / ⏰该复习 / ✅正常）④ 目标进度（level < target）。同时校验缺字段/非法枚举/错误日期并报警。
+
+## 考核流程（提升熟练度）
+
+```
+/考核 <知识点>
+```
+
+例如 `/考核 Kotlin 协程`。我（AI）当考官，按四档梯度出题，你作答，我根据表现判定 level、更新该知识点的 `level`/`last_assessed`/「考核记录」、重置复习日期并刷新看板。**只有考核能改变 level。**
+
+出题梯度：了解=概念题 / 熟悉=照做题 / 掌握=独立实现+排障 / 精通=架构设计。
+
+## 复习 vs 考核
+
+- **考核**：决定 `level`，由 `/考核` 触发，记录在 `last_assessed` 与「考核记录」段。
+- **复习**：基于 `next_review` 的温习提醒，不改 level；到期了重看一遍（或重新考核冲下一档）。
+- 看板的「考核进度」展示已考核/待考核；「复习清单」展示到期温习。
 
 ## 复习周期建议
 
@@ -58,7 +76,8 @@ python3 scripts/build_dashboard.py
 
 ## 长期跟进工作流
 
-1. 学/复习一个知识点 → 更新对应 `.md`（`level`/`last_reviewed`/`next_review`/`自评依据`）。
-2. 跑 `python3 scripts/build_dashboard.py` 刷新看板。
-3. 看看「复习清单」安排本周复习内容。
-4. 每季度在 `plans/` 立目标，学完勾选、达成后把对应 `level` 升上去。
+1. 新增/复习一个知识点 → 更新对应 `.md`（`last_reviewed`/`next_review`/概述）。
+2. 想提升 level → 跑 `/考核 <知识点>`，由 AI 判定。
+3. 跑 `python3 scripts/build_dashboard.py` 刷新看板。
+4. 看「考核进度」安排要考核的；看「复习清单」安排温习。
+5. 每季度在 `plans/` 立目标，达成后用 `/考核` 把 level 升上去。
