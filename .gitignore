@@ -4,3 +4,7 @@ __pycache__/
 
 # macOS Finder 元数据
 .DS_Store
+
+# Claude Code 运行时状态（不提交），.claude/skills/ 保留提交
+.claude/state/
+.claude/sessions/
