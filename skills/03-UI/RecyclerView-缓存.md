@@ -14,7 +14,96 @@ related: [ListView]
 # RecyclerView 四级缓存
 
 ## 概述
-RecyclerView 通过 Scrap/ mAttachedScrap / mCachedViews / ViewCacheExtension / RecycledViewPool 多级复用 ViewHolder，降低滑动时创建/绑定开销。
+RecyclerView 通过**多级 ViewHolder 复用**来降低滑动时反复 `inflate`+`bind` 的开销,核心是一套**四级缓存**:屏幕内临时剥离的 Scrap、按 position 精确命中的 mCachedViews、自定义的 ViewCacheExtension、按 viewType 分组的 RecycledViewPool。取复用时按优先级链依次找,前几级命中可省去重新绑定,只有落到 Pool 或全新创建才需要 rebind;再配合 prefetch 预取、DiffUtil 精准更新,让长列表滚动更顺滑。
 
 ## 考核记录
 （尚未考核）
+
+## 核心原理 / 关键点
+
+### 1. 复用解决了什么
+
+列表滚动时每帧可能要显示十几个 item。如果每个都 `inflate` XML + `findViewById` + 绑定数据,开销巨大、必然掉帧。ListView 用 `convertView` 复用整张视图(但不强制 ViewHolder,`findViewById` 仍反复执行);RecyclerView 把复用**系统化**:推荐 **ViewHolder 模式**(把 itemView 与子 view 引用一次性 find 好),再建一套多级缓存来复用这些 ViewHolder,避免反复 inflate + bind。
+
+### 2. 四级缓存结构
+
+| 级别 | 容器 | 命中条件 | 命中后 |
+|------|------|---------|--------|
+| ① Scrap | `mAttachedScrap` / `mChangedScrap` | 屏幕内的 ViewHolder,layout 期间临时剥离 | 直接复用,**不 rebind** |
+| ② mCachedViews | `ArrayList`,默认大小 **2** | 按 **position 精确**匹配 | 命中即用,**不 rebind** |
+| ③ ViewCacheExtension | 用户自定义 | 自定义逻辑 | 通常需 rebind |
+| ④ RecycledViewPool | 按 viewType 的 `SparseArray`,每 type 默认 **5** | 按 **viewType** 匹配(不限 position) | 命中需 **rebind**(数据是旧的) |
+
+- Scrap 分两种:`mAttachedScrap`(未改变的屏幕内)、`mChangedScrap`(已改变的,pre-layout 用),只在单次 layout 期间有效,layout 完不保留。
+- `mCachedViews` 是「最近滑出去的几个」,默认 2,可用 `setItemViewCacheSize(n)` 调。
+- Pool 是终极回收站,默认每 type 存 5 个,可被多个 RecyclerView 共享。
+
+### 3. 复用流程（`getViewForPosition`）
+
+取一个 ViewHolder 的优先级链(`Recycler.tryGetViewHolderForPositionByDeadline`):
+
+1. `mChangedScrap` / `mAttachedScrap`(layout 期间)
+2. `mCachedViews`(按 position)
+3. `ViewCacheExtension`
+4. `RecycledViewPool`(按 viewType)
+5. 都没有 → `adapter.createViewHolder()` 新建
+
+命中 1、2 无需 rebind(直接复用绑定数据);命中 3、4 需要 `onBindViewHolder` 重新绑定。
+
+### 4. ViewHolder 状态机与 rebind 判定
+
+ViewHolder 带一组标志位(bound / invalid / update 等)决定状态。复用时:命中 `mCachedViews`(position 精确)认为数据有效、跳过 rebind;命中 Pool(viewType 对但 position 不同)数据无效、必须 rebind;收到 `notifyItemChanged` 等精准更新时,相关 ViewHolder 被标记 update、layout 时按需 rebind。
+
+### 5. prefetch 预取（GapWorker）
+
+自 RecyclerView 25.1.0 起内置 `GapWorker`:在**主线程的帧间隙空闲时间**(`Choreographer` 的 post-frame 回调,**不是子线程**)提前 `create`+`bind` 即将进入屏幕的 ViewHolder。作用是把下一屏要付的 create/bind 成本挪到空闲帧,降低实际滚动帧的掉帧。默认开启。**常被误说成「子线程预取」——其实是主线程空闲时做。**
+
+### 6. 多 type 与共享 Pool
+
+- `getItemViewType(position)` 返回 type,Pool 按 type 分桶。type 实现不对会导致跨类型复用 → 崩溃或显示错乱。
+- 多个列表(如多 Tab、ViewPager 多页)可共享同一个 `RecycledViewPool` 提升复用率:`recyclerView.setRecycledViewPool(sharedPool)`;**前提是各列表的 viewType 语义全局一致**,否则 type 冲突。
+
+### 7. DiffUtil + ListAdapter
+
+`DiffUtil` 用 Myers 差分算法算两个列表的最小变更集,生成精准的 `notifyItemXxx` 序列,替代全量 `notifyDataSetChanged()`——保留 item 动画、避免整屏 rebind。`ListAdapter<T, VH>` 封装了 `AsyncListDiffer`(后台 diff、主线程更新),`submitList(new)` 即自动处理。
+
+```kotlin
+// ListAdapter + DiffUtil:精准更新,不用手动算位置
+class Diff : DiffUtil.ItemCallback<Item>() {
+    override fun areItemsTheSame(a: Item, b: Item) = a.id == b.id      // 是否同一个 item
+    override fun areContentsTheSame(a: Item, b: Item) = a == b          // 内容是否相同
+}
+class Adapter : ListAdapter<Item, VH>(Diff()) {
+    override fun onBindViewHolder(h: VH, pos: Int) { /* 只绑定 */ }
+}
+```
+
+### 8. 性能优化清单
+
+- `setHasFixedSize(true)`:列表自身尺寸不随内容变时,省掉无谓的 `requestLayout`。
+- `setItemViewCacheSize(n)`:调大离屏缓存(默认 2),代价是内存。
+- `onBindViewHolder` 里别做重活(`inflate`、同步 IO、重计算、同步图片加载)。
+- 共享 `RecycledViewPool`(多列表场景)。
+- 开启 prefetch(默认开)。
+- 稳定 `getItemId()` + `setHasStableIds(true)`:让动画 / diff 更准。
+- 用 `DiffUtil` / `ListAdapter` 做精准更新。
+
+## 实践经验 / 踩坑
+
+1. **复用「脏数据」** —— ViewHolder 复用但 `onBindViewHolder` 没重置全部视图状态(选中态、展开态、异步图片占位、textColor),旧 item 状态串到新 item。每次 bind 主动复位。
+2. **getItemViewType 实现错误** —— 多 type 时返回不稳/越界,复用拿错布局。type 要稳定、唯一。
+3. **notifyDataSetChanged 全量刷新** —— 丢掉精准更新与动画、强制整屏 rebind。改用 DiffUtil / 具体 `notifyItemXxx`。
+4. **共享 Pool 时 viewType 冲突** —— 多列表共享 Pool 必须 viewType 语义一致,否则 A 列表的布局被 B 复用。
+5. **setHasFixedSize=false** —— 内容固定却没开,每次更新都触发额外 layout。
+6. **onBindViewHolder 里 inflate / 同步 IO** —— 拖慢滚动;重活挪到异步或预处理。
+7. **多 type 无 stableId** —— 没开 `setHasStableIds`,增删时动画/复用错位。
+
+## 待深入 / 下一步
+- [ ] 读 RecyclerView 源码:`Recycler.tryGetViewHolderForPositionByDeadline` / `RecycledViewPool`
+- [ ] 读 `GapWorker` prefetch 实现
+- [ ] 自定义 `ItemDecoration` / `ItemAnimator` / `LayoutManager`
+
+## 参考资料
+- 官方 RecyclerView:https://developer.android.com/develop/ui/views/layout/recyclerview
+- AndroidX 源码(`androidx.recyclerview`):https://cs.android.com/androidx/platform/frameworks/support/+/master:recyclerview/
+- 关键类:`Recycler`、`RecycledViewPool`、`GapWorker`、`ViewHolder`
