@@ -5,8 +5,8 @@ level: 了解
 target: 精通
 importance: 中
 last_assessed:
-last_reviewed: 2026-06-22
-next_review: 2026-07-22
+last_reviewed: 2026-07-24
+next_review: 2026-08-23
 tags: [列表, 缓存]
 related: [ListView]
 ---

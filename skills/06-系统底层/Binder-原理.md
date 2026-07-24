@@ -5,8 +5,8 @@ level: 了解
 target: 掌握
 importance: 中
 last_assessed:
-last_reviewed: 2026-06-10
-next_review: 2026-07-10
+last_reviewed: 2026-07-24
+next_review: 2026-08-23
 tags: [IPC, 底层]
 related: [AIDL]
 ---
