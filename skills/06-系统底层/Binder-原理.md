@@ -38,6 +38,15 @@ Linux 进程内存隔离:一个进程不能直接读写另一进程的内存。A
 - Binder 只拷贝一次:接收方进程启动时 `mmap` 一段内存给 Binder 驱动,这块**内核缓冲区与接收方用户空间映射到同一物理页**。发送方把数据从自己用户态拷进这块内核缓冲区(唯一一次拷贝),接收方用户态就能直接读到——省掉了第二次拷贝。
 - 安全:内核驱动控制访问,数据不暴露给第三方。代价:单事务有大小上限(约 1MB)。
 
+Binder 与常见 IPC 机制对比:
+
+| 机制 | 拷贝次数 | 调用方身份 | 特点 / 适用 |
+|---|---|---|---|
+| **Binder** | **1 次**(mmap) | 自带 UID/PID,不可伪造 | 面向对象 C/S,Android IPC 主力 |
+| 共享内存(ashmem) | 0 次 | 无,需自管同步 | 大数据 / 大图,但要自管并发 |
+| Socket / pipe | 2 次 | 可查,对端需校验 | 通用、跨用户 / 网络 |
+| System V IPC(shm / 消息队列 / 信号量) | 2 次 | — | 老式 IPC,Android 较少用 |
+
 ### 4. AIDL 与 Stub/Proxy 代理模式
 
 **AIDL**(Android Interface Definition Language)定义跨进程接口,编译器生成两份代码:
@@ -85,5 +94,7 @@ Server 启动后把自己的 Binder 实体注册到 `ServiceManager`(name → ha
 
 ## 参考资料
 - 官方 IPC:https://developer.android.com/guide/components/processes-and-threads
+- AIDL:https://developer.android.com/guide/components/aidl
 - Binder 驱动源码:https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/drivers/android/binder.c
+- Binder(framework API):https://developer.android.com/reference/android/os/Binder
 - ServiceManager:`frameworks/native/libs/binder`

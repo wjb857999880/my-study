@@ -105,5 +105,7 @@ class Adapter : ListAdapter<Item, VH>(Diff()) {
 
 ## 参考资料
 - 官方 RecyclerView:https://developer.android.com/develop/ui/views/layout/recyclerview
+- DiffUtil:https://developer.android.com/reference/androidx/recyclerview/widget/DiffUtil
+- ListAdapter:https://developer.android.com/reference/kotlin/androidx/recyclerview/widget/ListAdapter
 - AndroidX 源码(`androidx.recyclerview`):https://cs.android.com/androidx/platform/frameworks/support/+/master:recyclerview/
 - 关键类:`Recycler`、`RecycledViewPool`、`GapWorker`、`ViewHolder`

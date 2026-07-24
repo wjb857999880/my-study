@@ -54,6 +54,16 @@ Gradle 每次构建走三阶段:
 - 来源:`java-library` 插件提供 implementation/api;旧的 `compile`(已废弃)≈ api。另有 `testImplementation` / `androidTestImplementation` / `compileOnly`(仅编译期,如注解处理器) / `runtimeOnly`。
 - 解析与冲突:Gradle 默认取**冲突依赖中最高版本**(newest);可用 `resolutionStrategy.force` / 依赖 `constraints` 统一;`./gradlew :app:dependencies` / `dependencyInsight` 看依赖树。
 
+常用依赖配置对比:
+
+| 配置 | 对本模块 | 对下游(传递性) | 典型用途 |
+|---|---|---|---|
+| `implementation` | 编译 + 运行可见 | **不传递**(不进下游 compile classpath) | **默认**;内部依赖 |
+| `api` | 编译 + 运行可见 | **传递**(进下游 compile classpath) | 基础库,下游要用到其类型 |
+| `compileOnly` | 仅编译期 | 不传递 | 注解处理器 / provided 依赖 |
+| `runtimeOnly` | 仅运行期 | 不传递 | 运行时实现(如日志后端) |
+| `testImplementation` | 测试编译 + 运行 | 不传递 | 单元测试依赖 |
+
 ### 6. AGP 与构建变体(buildTypes × productFlavors)
 
 - **AGP** 提供 `com.android.application` / `com.android.library` 插件,在 Gradle 之上加 `android { }` DSL:`compileSdk`、`defaultConfig { applicationId, minSdk, targetSdk, versionCode }`、签名、`buildTypes { debug / release }`、`productFlavors`。

@@ -41,6 +41,16 @@ related: [Retrofit]
   - `addInterceptor`(**应用拦截器**):在**最外层**,只调一次(含重定向),连缓存命中也经过;适合日志 / 鉴权 / 统计。
   - `addNetworkInterceptor`(**网络拦截器**):在 `ConnectInterceptor` 之后、`CallServer` 之前,**每次真实网络请求都走**(含每次重定向),缓存命中**不走它**;适合看真实报文 / 压缩 / 连接复用。
 
+应用拦截器 vs 网络拦截器对比(高频考点):
+
+| | 应用拦截器 `addInterceptor` | 网络拦截器 `addNetworkInterceptor` |
+|---|---|---|
+| 链中位置 | 最外层(在 RetryAndFollowUp 之前) | Connect 之后、CallServer 之前 |
+| 调用次数 | **整体 1 次** | 每次真实网络请求(含每次重定向) |
+| 缓存命中 | **仍会调用** | **不调用**(短路在 CacheInterceptor) |
+| 看到的响应 | 重定向后的最终响应 | 每跳原始网络响应(含 gzip) |
+| 典型用途 | 鉴权 / 统计 / 离线缓存 / 业务日志 | 真实报文 / 压缩 / 连接复用观测 |
+
 ### 4. 五大内置拦截器
 
 - **RetryAndFollowUpInterceptor**:失败重试、跟随重定向(3xx)、认证重试(401);限制最多 20 次跟随,防死循环。
