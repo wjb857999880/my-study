@@ -4,9 +4,9 @@ domain: 01-语言
 level: 了解
 target: 掌握
 importance: 高
-last_assessed: 2026-07-27
-last_reviewed: 2026-07-27
-next_review: 2026-08-26
+last_assessed: 2026-07-28
+last_reviewed: 2026-07-28
+next_review: 2026-08-27
 tags: [Java, JVM, 集合]
 related: [多线程与并发]
 ---
@@ -17,6 +17,9 @@ related: [多线程与并发]
 Java 仍是 Android 历史代码与 SDK 的基础。核心:**集合框架**(List/Set/Map 各实现与适用场景、HashMap 原理)、**面向对象**(封装 / 继承 / 多态、接口 vs 抽象类)、**泛型与类型擦除**、**异常体系**。JVM / ART 层:**类加载机制**(双亲委派)、**内存区域**(堆 / 栈 / 方法区)、**GC**(分代回收、可达性分析、GC Root)、对象生命周期。Android 上是 **ART**(编译成机器码,而非标准 JVM),但 JVM 知识是理解内存 / GC / 并发的地基。
 
 ## 考核记录
+- **2026-07-28** 判定：了解 → 了解 ✅(持平,但了解档质量由下沿升到上沿)｜ 考官：AI
+  - 表现：复考昨日薄弱点全对——HashMap 转树规则记准(链表 ≥8 **且** 容量 ≥64、「且」非「或」、容量<64 先扩容);GC Root 定义正确(是可达性分析**起点对象**而非引用类型)、枚举完整(局部变量/参数、静态、常量、线程、JNI、synchronized 锁);引用计数致命在**循环引用**。但熟悉档照做题(LinkedHashMap 手写 LRU)给提示后仍写不出,accessOrder / removeEldestEntry 两关键点未掌握。
+  - 依据：了解档概念能讲清且昨日薄弱点已补,稳稳守住;但「给 API 写出可行用法」的熟悉档还做不到。最高稳稳答到 = 了解。已补 LinkedHashMap LRU 实现到正文(3.1)。距 target「掌握」仍差 2 档,建议把集合实战用法(LinkedHashMap LRU、ConcurrentHashMap 并发用法)练熟后再考。
 - **2026-07-27** 判定：了解 → 了解 ✅ ｜ 考官：AI
   - 表现：术语有印象(GC Root、HashMap「数组+链表+红黑树」)但讲不透——GC Root 定义含糊、只记得静态变量、漏「循环引用 vs 引用计数」关键点;HashMap 转树规则记错(把 8/6/64 混淆、漏「容量≥64」前提、条件误写成「或」)。
   - 依据：两道了解档概念题都只到「有印象」层级,定义/枚举/具体规则多处不准确,未达「能讲清」,守住了解档下沿。距 target「掌握」差 2 档,建议先系统复习(尤其 HashMap 原理、GC 与可达性分析)再考核。
@@ -39,6 +42,54 @@ Java 仍是 Android 历史代码与 SDK 的基础。核心:**集合框架**(List
 
 ### 3. ConcurrentHashMap
 并发安全的 HashMap。JDK7 用分段锁(Segment,16 段);**JDK8 起改为「数组 + 链表/红黑树 + CAS + synchronized 锁单桶头节点」**——锁粒度细化到桶,并发度大增。size 用 LongAdder 思想的 `CounterCell` 分段计数减少竞争;get 全程无锁(volatile 读)。
+
+### 3.1 LinkedHashMap 实现 LRU 缓存
+LinkedHashMap 比 HashMap 多维护一条双向链表记录遍历顺序,两个现成特性可直接做 LRU:
+- **accessOrder 模式**:构造器 `new LinkedHashMap<>(initialCapacity, loadFactor, accessOrder)` 第三参 `boolean` 默认 `false`(**插入顺序**);传 `true` 则为**访问顺序**——每次 `get`/`put` 命中把该 entry 移到链表**末尾(MRU 端)**,头部即最久未访问(LRU 端)。
+- **removeEldestEntry 回调**:`protected boolean removeEldestEntry(Map.Entry<K,V> eldest)`,**每次 put 后自动调用**,入参为当前最老 entry;默认返回 `false`(不删)。重写为 `size() > capacity` 时返回 `true`,框架自动淘汰头节点。
+
+```java
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+    LRUCache(int capacity) {
+        super(capacity, 0.75f, true);   // 第三参 accessOrder = true
+        this.capacity = capacity;
+    }
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;       // 超容量自动淘汰最老 entry
+    }
+}
+```
+
+- **示例**(capacity=3):`put a→[a]`、`put b→[a,b]`、`put c→[a,b,c]`、`get a→[b,c,a]`(a 刷新末尾)、`put d→[c,a,d]`(超容量,最久未访问的 b 被淘汰)。
+- **线程安全坑(高频考点)**:accessOrder 模式下 **`get` 也会改链表顺序**(把 entry 挪到末尾),所以并发 LRU 的 `get`/`put` **都要 `synchronized`**——只锁 put 会并发错乱链表。或用 `Collections.synchronizedMap()` 包一层(它对全部操作加同步)。
+- **Android 直接用 `android.util.LruCache`**:源码就是「LinkedHashMap(accessOrder) + synchronized」,业务里别自己手撸。两个 hook 要会:`sizeOf(key, value)` 决定**容量单位**(Bitmap 按 KB 限、不重写则按条数限)、`entryRemoved(...)` 是**淘汰回调**(可 recycle Bitmap 等资源)。
+- **何时换 Caffeine**:需要 TTL/过期、高并发、LFU/W-TinyLFU 策略或抗「扫描型访问」(一次大批量 get 把热数据挤掉)时,别扩 LinkedHashMap,上 Caffeine。
+
+### 3.2 ConcurrentHashMap 熟练用法:原子复合操作
+CHM 保证**单次操作**线程安全,但不保证「检查再操作」的组合原子。核心是四个**原子方法**,它们让 check-then-act 无需外部加锁。
+- **经典竞态(❌)**:`if (!map.containsKey(k)) map.put(k, v);`——判断与 put 之间非原子,两线程可都判为 null 后双写覆盖。正解用下方原子方法。
+
+| 方法 | 用途 | 典型场景 |
+|---|---|---|
+| `putIfAbsent(k, v)` | 仅当 k 不存在时放入,返回旧值 | 单次「缺则塞」 |
+| `computeIfAbsent(k, fn)` | 缺时才调 fn 算值并放入 | **懒加载 / 缓存初始化(最高频)** |
+| `compute(k, biFn)` | 原子 read-modify-write | 覆盖式更新(自己处理 null) |
+| `merge(k, v, biFn)` | 缺则置 v、有则与旧值合并 | **计数 / 聚合(最优雅)** |
+
+```java
+// 并发词频统计:一行替代 synchronized + get + put
+freq.merge(word, 1, Integer::sum);                 // 缺置 1,有则 +1
+// 懒加载缓存:仅缺失时才算(不会重复计算)
+cache.computeIfAbsent(key, k -> expensive(k));
+```
+
+- **记忆口诀**:懒初始化 → `computeIfAbsent`;计数累加 → `merge`;只在缺时塞 → `putIfAbsent`。
+- **三个行为差异坑(与 HashMap 对比)**:
+  1. **迭代弱一致**(weakly consistent):遍历不抛 `ConcurrentModificationException`,只反映迭代开始时的某状态,中途新增可能看不到。
+  2. **`size()` 是估值**:用 `CounterCell` 分段累加,非强一致,**别拿来精确判断**。
+  3. **key/value 都不能为 null**:null 与「不存在」有歧义,`map.put(k, null)` 直接 NPE。
 
 ### 4. 面向对象核心
 - **封装**:private 字段 + getter/setter,隐藏内部。
