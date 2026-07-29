@@ -148,9 +148,27 @@ class MainActivity : AppCompatActivity() {
 
 ## 待深入 / 下一步
 
-- [ ] 实战 Hilt 多 module 注入 ViewModel / Repository / 网络层
-- [ ] 理解 Component 层次与作用域传递
-- [ ] 用 Hilt 替换 mock 做单元测试
+**原理深挖**
+- [ ] Component 层次与作用域传递:`SingletonComponent` → `ActivityRetainedComponent` → `ActivityComponent` → `FragmentComponent`/`ViewModelComponent`,子组件能拿到父组件的绑定、反之不行——决定依赖在哪些范围可见。
+- [ ] 多绑定(multi-binding):`@IntoSet` 把多个实现聚成 `Set<X>`;`@IntoMap` + `@StringKey`/`@ClassKey` 聚成 `Map<K,V>`(策略模式/插件化的常见用法)。
+- [ ] 为什么 Hilt/Dagger 编译期生成代码、运行期无反射 → 性能不是问题:读生成的 `Hilt_*` / `*_Factory` 代码确认。
+
+**进阶 API**
+- [ ] `@EntryPoint` + `EntryPointAccessors`:给 Hilt 不直接支持的类(如 `ContentProvider`、第三方库里的对象)手动取依赖。
+- [ ] `@HiltViewModel` + `SavedStateHandle`:进程被杀后恢复状态,VM 构造注入 `SavedStateHandle`。
+- [ ] `@HiltWorker` + Hilt 的 WorkManager 集成(`Worker` 也走 DI)。
+- [ ] Compose 里用 `hiltViewModel()` 拿 `@HiltViewModel`(替代 Activity 的 `by viewModels()`)。
+
+**测试**
+- [ ] `@HiltAndroidTest` + `HiltAndroidRule`:插桩(instrumentation)测试里用 Hilt 容器。
+- [ ] `@UninstallModules` / 替换 Module:把真实现换成 fake/mock,脱离网络/DB 测 UI。
+- [ ] VM 单测直接构造传 mock 依赖(VM 不依赖 Android 框架时最轻量的测法)。
+
+**工程化**
+- [ ] 多 Gradle module 注入:feature module 怎么对外暴露 / 消费 Hilt 绑定。
+- [ ] KSP vs kapt:Hilt 已支持 KSP、构建更快,迁移注意点。
+- [ ] Hilt vs Koin 取舍:编译期 vs 运行期、无反射 vs 反射/代理、错误暴露时机(编译期 vs 运行期)。
+- [ ] 实战:在自己项目跑通 §9 骨架 → 多 module → 测试替换,再考冲「熟悉」。
 
 ## 参考资料
 
