@@ -4,9 +4,9 @@ domain: 02-框架与Jetpack
 level: 了解
 target: 熟悉
 importance: 中
-last_assessed:
-last_reviewed: 2026-07-24
-next_review: 2026-08-23
+last_assessed: 2026-07-29
+last_reviewed: 2026-07-29
+next_review: 2026-08-28
 tags: [Hilt, DI, Dagger]
 related: [MVVM, 移动端架构设计]
 ---
@@ -17,7 +17,9 @@ related: [MVVM, 移动端架构设计]
 依赖注入(DI)把对象的创建与使用解耦,便于测试与降低耦合。**Hilt 基于 Dagger**、针对 Android 简化:用 `@HiltAndroidApp` + `@AndroidEntryPoint` + `@Inject`/`@Module`/`@Provides` 声明依赖,编译期自动生成装配代码。常见:注入 Repository / ViewModel / Retrofit,替换实现做单元测试。需理解作用域(`@Singleton` / `@ActivityScoped` 等)与组件层次。
 
 ## 考核记录
-（尚未考核）
+- **2026-07-29** 判定：(待考核) → 了解 ✅ ｜ 考官：AI
+  - 表现：了解档概念扎实(DI 解耦/可测、Hilt=Dagger 的 Android 封装、`@HiltAndroidApp`/`@AndroidEntryPoint`/`@Inject`/`@Module`/`@Provides` 五个核心注解职责基本讲对)。熟悉档未达——最小骨架(Application/Module/Repository/Activity)与 ViewModel 注入(`@HiltViewModel` + `by viewModels()`)两题均答「不会」,无法写出可行用法。
+  - 依据：了解档稳过;熟悉档要求「照写出可行用法」,两题均未写出,故持平了解。差 1 档到 target(熟悉)。已把这两题答案补入 §9 作学习材料。
 
 ## 核心原理 / 关键点
 
@@ -66,6 +68,73 @@ Hilt 预定义组件对应 Android 生命周期,每个组件有匹配的作用�
 ### 8. 测试价值
 
 DI 最大收益之一是可测:测试时用替换 `@Module`(把真实现换成 mock),或在测试里构造被测类时直接传 mock 依赖,从而脱离网络 / DB 测业务逻辑。
+
+### 9. 完整示例：最小骨架 + ViewModel 注入
+
+**场景 A：搭一个能跑的最小 Hilt 骨架**（Application → Module 提供 Retrofit → Repository 构造注入 → Activity 字段注入）。
+
+① Application——触发 Hilt 代码生成的全局入口,并在 `AndroidManifest.xml` 里配 `android:name=".App"`：
+
+```kotlin
+@HiltAndroidApp
+class App : Application()
+```
+
+② Module 提供 `Retrofit` / `Api`——`@InstallIn(SingletonComponent::class)` 装到全局组件,`@Provides` 告诉 Hilt「这个依赖怎么造」,方法的入参也会被 Hilt 自动注入：
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+    @Provides @Singleton
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl("https://api.example.com/")
+        .build()
+
+    @Provides
+    fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+}
+```
+
+③ Repository——构造函数 `@Inject`,Hilt 自动把 `Api` 注进来：
+
+```kotlin
+class UserRepository @Inject constructor(
+    private val api: Api
+) {
+    suspend fun getUser(id: Int) = api.getUser(id)
+}
+```
+
+④ Activity——`@AndroidEntryPoint` + `@Inject lateinit var` 字段注入：
+
+```kotlin
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    @Inject lateinit var repo: UserRepository
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // repo 已注入,直接用
+    }
+}
+```
+
+**场景 B：ViewModel 注入**——`@HiltViewModel` + 构造函数 `@Inject`（注意是**构造注入**、不是字段注入），Activity 用 `by viewModels()` 拿：
+
+```kotlin
+@HiltViewModel
+class UserViewModel @Inject constructor(
+    private val repo: UserRepository
+) : ViewModel() { /* ... */ }
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    private val vm: UserViewModel by viewModels()   // Hilt 自动提供工厂构造 VM
+}
+```
+
+> `by viewModels()` 来自 `activity-ktx`（Fragment 用 `fragment-ktx`）；标了 `@HiltViewModel` 后 Hilt 会自动替换默认 `ViewModelProvider.Factory`，无需手写工厂。
 
 ## 实践经验 / 踩坑
 

@@ -9,7 +9,7 @@
 
 ## 考核进度
 
-> 已考核 3 / 待考核 60（待考核默认为了解）
+> 已考核 4 / 待考核 59（待考核默认为了解）
 
 **待考核清单：**
 
@@ -23,7 +23,6 @@
 | Code Review 与代码质量 | 软技能 | 掌握 |
 | Gradle 构建配置 | 工程化 | 熟悉 |
 | Handler 消息机制 | 系统底层 | 掌握 |
-| Hilt 依赖注入 | 框架与Jetpack | 熟悉 |
 | Jetpack Compose | 框架与Jetpack | 掌握 |
 | Jetpack Navigation | 框架与Jetpack | 熟悉 |
 | Kotlin Multiplatform 与 Compose Multiplatform | 跨平台与扩展 | 了解 |
@@ -122,7 +121,6 @@ _（无）_
 | Jetpack Compose | 框架与Jetpack | 了解 | 2026-08-10 |
 | Kotlin 语言特性与 Java 互操作 | 语言 | 了解 | 2026-08-23 |
 | 多线程与并发 | 语言 | 了解 | 2026-08-23 |
-| Hilt 依赖注入 | 框架与Jetpack | 了解 | 2026-08-23 |
 | Jetpack Navigation | 框架与Jetpack | 了解 | 2026-08-23 |
 | Room 数据库 | 框架与Jetpack | 了解 | 2026-08-23 |
 | WorkManager 后台任务 | 框架与Jetpack | 了解 | 2026-08-23 |
@@ -177,6 +175,7 @@ _（无）_
 | 端侧 AI 与智能端开发 | AI与端智能 | 了解 | 2026-08-26 |
 | Java 核心与 JVM 原理 | 语言 | 了解 | 2026-08-27 |
 | Kotlin Flow 与响应式编程 | 语言 | 了解 | 2026-08-28 |
+| Hilt 依赖注入 | 框架与Jetpack | 了解 | 2026-08-28 |
 | 启动优化 | 性能优化 | 了解 | 2026-08-31 |
 | Gradle 构建配置 | 工程化 | 了解 | 2026-09-13 |
 | Kotlin 协程 | 语言 | 熟悉 | 2026-09-27 |
