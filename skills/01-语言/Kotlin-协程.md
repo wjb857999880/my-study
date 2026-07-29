@@ -93,26 +93,41 @@ suspend fun show() = withContext(Dispatchers.Main) {
 
 ### 4. 拦截器（Interceptor）
 
-**`ContinuationInterceptor`** 是一个 `CoroutineContext` 元素，它拦截续接的 `resumeWith`——也就是决定续接「在哪儿、怎么」恢复。**Dispatcher 本身就是一个 `ContinuationInterceptor`**：它的 `interceptContinuation` 把续接包一层，负责把 resume 派发到自己的线程池。
+**一句话**：拦截器是协程每次「**恢复**（从挂起接着往下跑）」时都要经过的一道**钩子**——它能在「恢复」这一瞬间插一手：记日志、掐表计时、或者**把你送去另一个线程再恢复**。
 
-容易写错的点：`CoroutineContext` 是**按 Key 索引的元素集合，每个 Key 至多一个元素**（`ctx + a + b`，若 a、b 同 Key 则后者覆盖前者）。所以**一个 context 里至多一个 `ContinuationInterceptor`**——「多个拦截器按序叠加」不能靠往 context 塞多个实现，而要在单个拦截器的 `interceptContinuation` 内部自己组合包装、再 delegate。
+> **类比「收发室」**：协程挂起后要恢复，就像一个包裹要送到你手上；恢复前必须先过「收发室（拦截器）」。收发员可以登记一下（日志）、称个重（计时），也可以**直接把包裹转去另一栋楼（切线程）**再派送。`Dispatchers.IO` 就是那个「专门把包裹转去 IO 线程」的收发员——**所以 Dispatcher 本质就是个拦截器**。
+
+**它拦截的到底是什么**：协程挂起靠「续接（Continuation）」——一段「接着往下跑」的凭证，它有个 `resumeWith()`，被调用 = 协程恢复。拦截器做的事就是把续接**包一层**，在真正的 `resumeWith` 前后插入自己的逻辑：
 
 ```kotlin
-class LoggingInterceptor : AbstractCoroutineContextElement(ContinuationInterceptor), ContinuationInterceptor {
+// 最朴素的拦截器：每次「恢复」时打印一行
+class LogInterceptor : AbstractCoroutineContextElement(ContinuationInterceptor),
+                          ContinuationInterceptor {
+    // 拿原始续接 cont，返回一个「包了一层」的新续接
     override fun <T> interceptContinuation(cont: Continuation<T>) =
         object : Continuation<T> {
             override val context = cont.context
             override fun resumeWith(result: Result<T>) {
-                println("resume on ${Thread.currentThread().name}")
-                cont.resumeWith(result)   // delegate 给下一层（如 Dispatcher）
+                println("即将在 ${Thread.currentThread().name} 恢复")
+                cont.resumeWith(result)   // 再交给下层（往往是 Dispatcher）真正恢复
             }
         }
 }
+```
 
-// 注意:与 Dispatchers.Default 同为 ContinuationInterceptor,后写的覆盖前者;
-// 真要两者都生效,需在拦截器内部手动组合,而不是并列放进 context
+**为什么 Dispatcher 就是拦截器（关键认知）**：你写 `withContext(Dispatchers.IO) { ... }` 能切线程，底层正是 `Dispatchers.IO` 这个拦截器在续接「要恢复」时，**不让它就地恢复，而是 submit 到 IO 线程池、等池里有线程了再恢复**。换句话说「调度（切线程）」只是「拦截」的一种用法——拦截器是更通用的机制，Dispatcher 是它最常用的实现（这也是为什么 `CoroutineDispatcher` 实现的接口正是 `ContinuationInterceptor`）。
+
+**一个常被忽略的坑**：`CoroutineContext` 是**按 Key 存的集合，每个 Key 只能有一个元素**（`a + b` 若同 Key，后者覆盖前者），而 `ContinuationInterceptor` 就是一个 Key。所以**一个 context 里至多一个拦截器**：
+
+```kotlin
+// ⚠️ Dispatchers.Default 和 LoggingInterceptor 都是 ContinuationInterceptor
+//    结果只有一个生效(后者覆盖前者)，不是「两个叠加」
 scope.launch(Dispatchers.Default + LoggingInterceptor()) { /* ... */ }
 ```
+
+真要「先记日志、再切线程」两个都生效，不能并列塞进 context，得在**一个**拦截器的 `interceptContinuation` 里手动把日志包在调度外层、再 delegate 给 Dispatcher。
+
+**日常记住两点就够**：① Dispatcher 底层就是个拦截器（在恢复时负责切线程）；② 一个 context 只能有一个拦截器，想叠加得在内部 delegate，不是往 context 里塞多个。
 
 ### 5. 启动与等待：launch / async
 
