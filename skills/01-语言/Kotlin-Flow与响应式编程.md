@@ -4,9 +4,9 @@ domain: 01-语言
 level: 了解
 target: 掌握
 importance: 高
-last_assessed:
-last_reviewed: 2026-07-27
-next_review: 2026-08-26
+last_assessed: 2026-07-29
+last_reviewed: 2026-07-29
+next_review: 2026-08-28
 tags: [Flow, StateFlow, SharedFlow, 响应式, RxJava]
 related: [Kotlin 协程, Jetpack Compose, MVVM]
 ---
@@ -17,7 +17,10 @@ related: [Kotlin 协程, Jetpack Compose, MVVM]
 **响应式编程**的核心是「数据流 + 变化传播」:把一切看成随时间推进的值序列,声明「A 依赖 B、C」后,B、C 变化时 A 自动重算。**`Flow<T>`** 是 Kotlin 协程提供的响应式流 API——可看作**协程版的 RxJava Observable**:它基于 `suspend`、天然背压、契合结构化并发,替代了 RxJava 一大堆线程调度操作符。核心要分清**冷流**(普通 `Flow`,无人订阅不生产、每个 collector 各跑一遍)和**热流**(`StateFlow`/`SharedFlow`,独立于订阅者、多方共享)。在 MVVM+Compose 中,`StateFlow` 承载 UI 状态(取代 `LiveData`)、`SharedFlow` 承载一次性事件,通过 `collectAsStateWithLifecycle` 驱动 UI。相比 `LiveData`,Flow 线程安全更好、操作符丰富;相比 RxJava,Flow 学习曲线低、与协程一体化。
 
 ## 考核记录
-（尚未考核）
+- **2026-07-29** 判定：(待考核) → 了解 ✅ ｜ 考官：AI
+  - 表现：概念扎实——冷流/热流区分清晰、能讲清「两个 collector → 两次网络请求」;背压概念方向对(生产>消费的消费端反控)。StateFlow 基本用法能写(mutable + asStateFlow 只读暴露 + 初始值)。
+  - 不足：① 背压说成「阻塞生产」(应为 suspend 挂起,非线程阻塞);② 响应式操作符链不熟练——`conflate` 误当作去重(应为 `distinctUntilChanged`)、`debounce(3000)` 单位错(应 300)、`collectLatest` 终端 lambda 非法(`q` 未绑定、误用 `emit`)。
+  - 依据：了解档稳过;熟悉档要求「照写出可行用法」,Q4 操作符链不可编译且 conflate/distinct 概念混淆,未稳稳达到,故持平了解。差 1 档到 target(掌握)。
 
 ## 核心原理 / 关键点
 
