@@ -121,11 +121,19 @@ val events by vm.events.collectAsStateWithLifecycle(initialValue = null)
 
 **异常/重试**:`catch { }`(只捕上游,且只能 `emit` 补偿,不能改下游语义)、`onEmpty { }`(上游空时补发)、`retry(times) { e -> }` / `retryWhen { e, attempt -> }`。
 
-**背压**(生产比消费快):Flow 用挂起天然背压,但慢消费时还可:
+**什么是背压(backpressure)**:当**生产端发射速度 > 消费端处理速度**时,让消费端反过来约束生产端节奏的机制——本质是「流量控制 / 反馈控制」。响应式流是异步、解耦的,生产者与消费者各自独立运行,速率难免失配;若生产快、消费慢又无任何约束,数据就会在中间堆积——要么撑爆缓冲(OOM),要么被迫丢弃,要么延迟越积越大。背压就是让消费端能告诉生产端「我还没准备好,慢一点 / 停一下」。
+
+> 类比「漏斗倒水」:漏斗(消费者)排水慢、你(生产者)倒水快。没有背压 = 照倒不误 → 水溢出(数据丢失 / OOM);有背压 = 看漏斗快满了就停手等它排。这就是「消费端反控生产端」。
+
+**Flow 的天然背压(关键)**:`emit` 与 `collect` 都是 `suspend`。冷流是**拉模式**——`collect` 拿一个值、处理完(挂起期间)上游 `emit` 才返回、才发下一个,**生产者根本跑不到消费者前面**:消费端没处理完,`emit` 就挂起等;消费者慢,生产者自动跟着慢。所以普通 `Flow` 默认**不丢、不堆**,背压由协程挂起自然完成,不需要像 Reactive Streams / RxJava 那样用 `request(n)` 显式申请需求量。
+
+**那为什么还要手动处理?** 天然背压的代价是「生产被 collect 卡死」——collect 慢,生产也跟着慢、吞吐低。当你想**让生产先跑起来**(提高吞吐、解耦上下游)时,就要主动打破这种同步:
 
 - `buffer()` / `buffer(cap)`:生产与 collect 切到不同协程、中间加缓冲,生产不再被 collect 阻塞。
 - `conflate()`:合并,只留最新。
 - `collectLatest { }`:新值到来时取消上一轮还没跑完的 `collect` lambda。
+
+⚠️ 区分两类策略:`buffer()` 是**无损**(加容量换吞吐,满了仍 SUSPEND 发射方);`conflate()` / `collectLatest()` 是**有损**(主动丢旧值换实时性)。选型看「能不能丢」——状态/最新值能丢(`conflate`),逐条事件不能丢(`buffer` 或 `SharedFlow` 的 `extraBufferCapacity`)。
 
 **终端**:`collect` / `toList()` / `first()` / `single()` / `fold()` / `launchIn(scope)`。
 
