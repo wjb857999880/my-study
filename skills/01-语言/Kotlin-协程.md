@@ -1,12 +1,12 @@
 ---
 title: Kotlin 协程
 domain: 01-语言
-level: 了解
+level: 熟悉
 target: 掌握
 importance: 高
-last_assessed:
-last_reviewed: 2026-07-24
-next_review: 2026-08-23
+last_assessed: 2026-07-29
+last_reviewed: 2026-07-29
+next_review: 2026-09-27
 tags: [并发, 异步]
 related: [RxJava, Handler]
 ---
@@ -17,7 +17,10 @@ related: [RxJava, Handler]
 Kotlin 的轻量级异步/并发方案。**协程不是线程**,而是「可挂起的计算」:执行到 `suspend` 挂起点时把当前状态打包、交还线程(不阻塞),条件满足后 `resume` 接着跑——于是能用同步写法写异步代码。一个线程可复用跑大量协程;再通过**结构化并发**(作用域 + 父子关系)统一管理生命周期、取消与异常。
 
 ## 考核记录
-（尚未考核）
+- **2026-07-29** 判定：(待考核) → 熟悉 ✅ ｜ 考官：AI
+  - 表现：概念扎实——协程≠线程/轻量(KB级+用户态切换)/suspend 释放线程不阻塞、结构化并发(父子取消、父等子、解决泄漏)。熟悉档稳过:async 并发合并(`async{}` 先发起再 `await` 合并)、`withContext` 切线程(IO 读→Main 更新)都写得对。
+  - 不足：掌握档未达——协作式取消根因讲对(无挂起点)但 API 写错(`isAlived()` 应为 `isActive`/`ensureActive()`/`yield()`);超时+兜底实现(`withTimeoutOrNull` + try/catch)不会写。
+  - 依据：了解→熟悉两档稳稳答到;掌握档要求独立实现,Q6 写不出、Q5 API 有误,未达,故判熟悉。差 1 档到 target(掌握)。
 
 ## 核心原理 / 关键点
 
@@ -174,6 +177,7 @@ suspend fun work() {
 - **`CoroutineExceptionHandler`**：未捕获异常的最后兜底，**只对根协程（直接在 scope 上 launch 的、没有父的协程）生效**；子协程的异常会向上冒给父，装在子身上会被忽略。
 - **`SupervisorJob` / `supervisorScope`**：让子协程相互独立，一个失败不连累兄弟。适合「多个互不相关、各自失败各自处理」的场景。
 - `try/catch` 能包住 suspend 调用（它就是普通函数调用），但包不住 `launch { }` 的 lambda——那个跑在另一个协程里，异常不会同步冒给调用方。
+- **超时**：`withTimeout(ms) { }` 到点抛 `TimeoutCancellationException`（属 `CancellationException`）；只想「超时不抛、返回默认值」用 **`withTimeoutOrNull(ms) { }`**——超时返回 `null`、正常返回结果，配合 `try/catch` 即可「超时或失败都兜底」。
 
 ```kotlin
 supervisorScope {
@@ -183,6 +187,17 @@ supervisorScope {
 
 val handler = CoroutineExceptionHandler { ctx, e -> log("root failed: $e") }
 scope.launch(handler) { risky() }   // 根协程兜底
+```
+
+「超时 + 失败都兜底」示例（`withTimeoutOrNull` + `try/catch`）：
+
+```kotlin
+// 5 秒超时;超时或请求失败都不抛,返回默认值
+suspend fun fetchOrDefault(): Result = try {
+    withTimeoutOrNull(5000) { api.fetch() } ?: DEFAULT   // 超时 → null → DEFAULT
+} catch (e: Exception) {                                  // api.fetch() 抛异常 → DEFAULT
+    DEFAULT
+}
 ```
 
 ### 8. Flow（冷流）
