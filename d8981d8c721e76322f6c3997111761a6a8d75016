@@ -1,0 +1,23 @@
+skills/02-框架与Jetpack/Hilt-依赖注入.md
+  5b9887d386a72e8d 151-171
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.4",
+  "base_commit_sha": "d8981d8c721e76322f6c3997111761a6a8d75016",
+  "prompts": {
+    "5b9887d386a72e8d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b44c74d4-8e45-40d2-862c-25c283cd44d1",
+        "model": "glm-5.2"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 3,
+      "accepted_lines": 21,
+      "overriden_lines": 0
+    }
+  }
+}
