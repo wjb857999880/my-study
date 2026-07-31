@@ -1,0 +1,36 @@
+skills/03-UI/RecyclerView讲解/源码解析.md
+  5ccef4aba8faea47 1-182
+_sidebar.md
+  5ccef4aba8faea47 19-23
+skills/03-UI/RecyclerView讲解/GapWorker-prefetch.md
+  5ccef4aba8faea47 1-137
+DASHBOARD.md
+  5ccef4aba8faea47 6,12,35-37,85,98,120,182-184,202-203,240
+skills/03-UI/RecyclerView讲解/四级缓存.md
+  5ccef4aba8faea47 11,102-105
+skills/03-UI/RecyclerView讲解/自定义组件.md
+  5ccef4aba8faea47 1-143
+scripts/build_dashboard.py
+  5ccef4aba8faea47 117-122
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "5f302eead8015c798ef2a8b65fe8538fd7b510b2",
+  "prompts": {
+    "5ccef4aba8faea47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "971a0028-04fc-4ea7-b361-54ee29785364",
+        "model": "glm-5.2"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 860,
+      "total_deletions": 13,
+      "accepted_lines": 856,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/ef3802635eaca3dadd03d15f9ac00fd6d18434fa927e3b116877d38d27837674"
+    }
+  }
+}
