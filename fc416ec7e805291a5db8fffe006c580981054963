@@ -1,0 +1,24 @@
+skills/02-框架与Jetpack/WorkManager-后台任务.md
+  5ccef4aba8faea47 53-152,162-168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.6",
+  "base_commit_sha": "fc416ec7e805291a5db8fffe006c580981054963",
+  "prompts": {
+    "5ccef4aba8faea47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "971a0028-04fc-4ea7-b361-54ee29785364",
+        "model": "glm-5.2"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 107,
+      "total_deletions": 4,
+      "accepted_lines": 107,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/679716c6cbf48cb850c01c4cad79cf95d29745755d6cf70787f12697c5251b53"
+    }
+  }
+}
