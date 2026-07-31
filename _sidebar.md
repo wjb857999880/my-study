@@ -16,7 +16,11 @@
   - [WorkManager 后台任务](skills/02-框架与Jetpack/WorkManager-后台任务.md)
 
 - **03-UI**
-  - [RecyclerView 四级缓存](skills/03-UI/RecyclerView-缓存.md)
+  - **RecyclerView 讲解**
+    - [四级缓存](skills/03-UI/RecyclerView讲解/四级缓存.md)
+    - [源码解析(Recycler / Pool)](skills/03-UI/RecyclerView讲解/源码解析.md)
+    - [预取源码(GapWorker)](skills/03-UI/RecyclerView讲解/GapWorker-prefetch.md)
+    - [自定义组件(Decoration/Animator/Layout)](skills/03-UI/RecyclerView讲解/自定义组件.md)
   - [事件分发机制](skills/03-UI/事件分发机制.md)
   - [动画与转场](skills/03-UI/动画与转场.md)
   - [屏幕适配与多形态设备](skills/03-UI/屏幕适配与多形态设备.md)

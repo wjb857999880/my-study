@@ -114,9 +114,12 @@ def validate(fields, source):
         v = fields.get(f)
         if v and not _is_date(v):
             warns.append("%s 日期格式错误: %s（应为 YYYY-MM-DD）" % (f, v))
-    if fields.get("domain") and source.parent.name != fields["domain"]:
-        warns.append("domain(%s) 与文件所在目录(%s)不一致"
-                     % (fields["domain"], source.parent.name))
+    # domain 取 skills/ 下的顶层目录，支持知识点再分子目录
+    # （如 skills/03-UI/RecyclerView讲解/四级缓存.md → 顶层目录 03-UI）
+    domain_folder = source.relative_to(SKILLS_DIR).parts[0]
+    if fields.get("domain") and domain_folder != fields["domain"]:
+        warns.append("domain(%s) 与文件所在顶层目录(%s)不一致"
+                     % (fields["domain"], domain_folder))
     return warns
 
 

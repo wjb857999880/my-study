@@ -3,13 +3,13 @@
 
 # 技能熟练度总看板
 
-> 数据日期：2026-07-29　|　知识点总数：63
+> 数据日期：2026-07-31　|　知识点总数：66
 
 ## ✅ 校验通过（无告警）
 
 ## 考核进度
 
-> 已考核 4 / 待考核 59（待考核默认为了解）
+> 已考核 4 / 待考核 62（待考核默认为了解）
 
 **待考核清单：**
 
@@ -32,6 +32,9 @@
 | NDK 与 JNI 开发 | 系统底层 | 熟悉 |
 | OkHttp 拦截器 | 网络与存储 | 精通 |
 | RecyclerView 四级缓存 | UI | 精通 |
+| RecyclerView 源码解析(Recycler / RecycledViewPool) | UI | 掌握 |
+| RecyclerView 自定义组件(ItemDecoration / ItemAnimator / LayoutManager) | UI | 熟悉 |
+| RecyclerView 预取源码(GapWorker) | UI | 掌握 |
 | Room 数据库 | 框架与Jetpack | 熟悉 |
 | WorkManager 后台任务 | 框架与Jetpack | 熟悉 |
 | 事件分发机制 | UI | 掌握 |
@@ -79,7 +82,7 @@
 
 | 档位 | 数量 | 占比 |
 |------|------|------|
-| 了解 | 62 | 98% |
+| 了解 | 65 | 98% |
 | 熟悉 | 1 | 2% |
 | 掌握 | 0 | 0% |
 | 精通 | 0 | 0% |
@@ -92,7 +95,7 @@
 |------|----------|-----------|
 | 语言 | 5 | 了解（1.2） |
 | 框架与Jetpack | 5 | 了解（1.0） |
-| UI | 6 | 了解（1.0） |
+| UI | 9 | 了解（1.0） |
 | 性能优化 | 4 | 了解（1.0） |
 | 架构 | 3 | 了解（1.0） |
 | 系统底层 | 5 | 了解（1.0） |
@@ -114,7 +117,7 @@ _（无）_
 
 _（无）_
 
-### ✅ 正常（63）
+### ✅ 正常（66）
 
 | 知识点 | 领域 | 现状 | 下次复习 |
 |--------|------|------|----------|
@@ -176,6 +179,9 @@ _（无）_
 | Java 核心与 JVM 原理 | 语言 | 了解 | 2026-08-27 |
 | Kotlin Flow 与响应式编程 | 语言 | 了解 | 2026-08-28 |
 | Hilt 依赖注入 | 框架与Jetpack | 了解 | 2026-08-28 |
+| RecyclerView 预取源码(GapWorker) | UI | 了解 | 2026-08-30 |
+| RecyclerView 源码解析(Recycler / RecycledViewPool) | UI | 了解 | 2026-08-30 |
+| RecyclerView 自定义组件(ItemDecoration / ItemAnimator / LayoutManager) | UI | 了解 | 2026-08-30 |
 | 启动优化 | 性能优化 | 了解 | 2026-08-31 |
 | Gradle 构建配置 | 工程化 | 了解 | 2026-09-13 |
 | Kotlin 协程 | 语言 | 熟悉 | 2026-09-27 |
@@ -193,6 +199,8 @@ _（无）_
 | Kotlin 语言特性与 Java 互操作 | 语言 | 了解 | 掌握 | 2 档 |
 | 多线程与并发 | 语言 | 了解 | 掌握 | 2 档 |
 | Jetpack Compose | 框架与Jetpack | 了解 | 掌握 | 2 档 |
+| RecyclerView 预取源码(GapWorker) | UI | 了解 | 掌握 | 2 档 |
+| RecyclerView 源码解析(Recycler / RecycledViewPool) | UI | 了解 | 掌握 | 2 档 |
 | 事件分发机制 | UI | 了解 | 掌握 | 2 档 |
 | 自定义 View 与绘制流程 | UI | 了解 | 掌握 | 2 档 |
 | 内存优化 | 性能优化 | 了解 | 掌握 | 2 档 |
@@ -229,6 +237,7 @@ _（无）_
 | Jetpack Navigation | 框架与Jetpack | 了解 | 熟悉 | 1 档 |
 | Room 数据库 | 框架与Jetpack | 了解 | 熟悉 | 1 档 |
 | WorkManager 后台任务 | 框架与Jetpack | 了解 | 熟悉 | 1 档 |
+| RecyclerView 自定义组件(ItemDecoration / ItemAnimator / LayoutManager) | UI | 了解 | 熟悉 | 1 档 |
 | 动画与转场 | UI | 了解 | 熟悉 | 1 档 |
 | 屏幕适配与多形态设备 | UI | 了解 | 熟悉 | 1 档 |
 | 混合开发与 WebView | UI | 了解 | 熟悉 | 1 档 |
