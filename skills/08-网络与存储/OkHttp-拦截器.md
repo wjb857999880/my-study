@@ -38,7 +38,7 @@ related: [Retrofit]
 - 内置链顺序(从外到内):
   `用户拦截器(addInterceptor)` → `RetryAndFollowUpInterceptor` → `BridgeInterceptor` → `CacheInterceptor` → `ConnectInterceptor` → `网络拦截器(addNetworkInterceptor)` → `CallServerInterceptor`。
 
-![OkHttp拦截器责任链](../考核/okhttp-interceptor-chain.png)
+![OkHttp拦截器责任链](../docs/考核/okhttp-interceptor-chain.png)
 
 - **关键区别**:
   - `addInterceptor`(**应用拦截器**):在**最外层**,只调一次(含重定向),连缓存命中也经过;适合日志 / 鉴权 / 统计。
