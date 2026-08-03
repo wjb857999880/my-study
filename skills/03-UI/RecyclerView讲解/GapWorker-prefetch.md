@@ -6,7 +6,7 @@ target: 掌握
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-31
-next_review: 2026-08-30
+next_review: 2026-08-31
 tags: [RecyclerView, 源码, 预取, GapWorker, 性能]
 related: [RecyclerView 四级缓存, RecyclerView 源码解析(Recycler / RecycledViewPool)]
 ---

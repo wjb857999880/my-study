@@ -6,7 +6,7 @@ target: 掌握
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-08-15
 tags: [Handler, Looper, 消息队列]
 related: [Kotlin 协程]
 ---

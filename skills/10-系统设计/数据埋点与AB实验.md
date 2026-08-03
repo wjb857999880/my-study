@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-12-11
 tags: [埋点, A/B 实验, 增长, 数据驱动]
 related: [性能与稳定性体系, 技术方案设计与评审, AOP 与字节码插桩]
 ---

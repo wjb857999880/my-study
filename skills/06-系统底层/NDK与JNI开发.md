@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-11-20
 tags: [NDK, JNI, CMake, Native, Rust]
 related: [音视频开发, 移动端安全, Binder 通信原理]
 ---

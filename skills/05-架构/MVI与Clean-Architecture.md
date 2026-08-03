@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-11-18
 tags: [MVI, Clean Architecture, 单向数据流, 分层架构]
 related: [MVVM, 组件化与模块化, Kotlin Flow 与响应式编程]
 ---

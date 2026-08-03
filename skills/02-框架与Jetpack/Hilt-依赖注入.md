@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed: 2026-07-29
 last_reviewed: 2026-07-29
-next_review: 2026-08-28
+next_review: 2026-11-11
 tags: [Hilt, DI, Dagger]
 related: [MVVM, 移动端架构设计]
 ---

@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-11-27
 tags: [WorkManager, 后台, 任务]
 related: [Android 四大组件与生命周期]
 ---

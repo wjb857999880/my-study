@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-11-06
 tags: [CI, CD, 发布]
 related: [Gradle 构建配置, 自动化测试]
 ---

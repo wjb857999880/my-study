@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-15
-next_review: 2026-09-13
+next_review: 2026-11-09
 tags: [构建, Gradle]
 related: []
 ---

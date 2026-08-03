@@ -6,7 +6,7 @@ target: 掌握
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-10-16
 tags: [端侧AI, ML Kit, Gemini Nano, TFLite, 推理优化]
 related: [Jetpack Compose, 音视频开发, 移动端安全]
 ---

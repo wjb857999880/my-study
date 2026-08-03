@@ -6,7 +6,7 @@ target: 了解
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-12-27
 tags: [KMP, Compose Multiplatform, 跨平台]
 related: [Kotlin 语言特性与 Java 互操作, Jetpack Compose]
 ---

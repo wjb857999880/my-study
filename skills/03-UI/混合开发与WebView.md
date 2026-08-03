@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-12-18
 tags: [WebView, JSBridge, 混合开发, H5, 小程序]
 related: [Jetpack Compose, 移动端安全, 性能与稳定性体系]
 ---

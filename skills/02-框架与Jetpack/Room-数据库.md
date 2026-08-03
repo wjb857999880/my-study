@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-11-25
 tags: [Room, SQLite, 数据库]
 related: [网络与离线缓存策略]
 ---

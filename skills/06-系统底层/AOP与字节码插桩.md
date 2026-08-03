@@ -6,7 +6,7 @@ target: 了解
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-12-25
 tags: [AOP, ASM, 字节码, 插桩, Gradle 插件]
 related: [Gradle 构建配置, 性能与稳定性体系, 移动端安全]
 ---

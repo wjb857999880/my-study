@@ -6,7 +6,7 @@ target: 掌握
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24
-next_review: 2026-08-23
+next_review: 2026-08-10
 tags: [IPC, 底层]
 related: [AIDL]
 ---

@@ -6,7 +6,7 @@ target: 掌握
 importance: 高
 last_assessed: 2026-07-28
 last_reviewed: 2026-07-28
-next_review: 2026-08-27
+next_review: 2026-08-17
 tags: [Java, JVM, 集合]
 related: [多线程与并发]
 ---

@@ -6,7 +6,7 @@ target: 精通
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-05
-next_review: 2026-10-03
+next_review: 2026-08-03
 tags: [网络, 拦截器]
 related: [Retrofit]
 ---

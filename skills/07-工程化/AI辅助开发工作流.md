@@ -6,7 +6,7 @@ target: 熟悉
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-27
-next_review: 2026-08-26
+next_review: 2026-11-04
 tags: [AI编程, Copilot, Cursor, Claude Code, 提效]
 related: [Code Review 与代码质量, CI/CD 流水线与发布, 自动化测试]
 ---

@@ -6,7 +6,7 @@ target: 掌握
 importance: 高
 last_assessed: 2026-07-29
 last_reviewed: 2026-07-29
-next_review: 2026-09-27
+next_review: 2026-11-16
 tags: [并发, 异步]
 related: [RxJava, Handler]
 ---
