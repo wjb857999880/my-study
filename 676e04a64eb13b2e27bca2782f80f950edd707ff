@@ -1,0 +1,22 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "676e04a64eb13b2e27bca2782f80f950edd707ff",
+  "prompts": {
+    "9d74a39a0a6cd69e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "18d0f283-df1e-4144-909a-21800a49e39b",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 4,
+      "accepted_lines": 0,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/f1f7d04aace5095ff5c420e33952a2555c5bb94e910ae941f2cc4488609f880b"
+    }
+  }
+}
