@@ -1,0 +1,38 @@
+index.html
+  9d74a39a0a6cd69e 35-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "79db4811694ba1e0cf93c26c1646748c391fa5eb",
+  "prompts": {
+    "9d74a39a0a6cd69e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "18d0f283-df1e-4144-909a-21800a49e39b",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/508746dd2dcebbad23e5d2066b1b6a1b4b2c5e29550c434302ba290b0b8f37c7"
+    },
+    "b6fb15efb38533c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4e4330a-3b30-46d7-9307-08713f9dc842",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 4474,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/8a2fb4e3ad2829c678be511c55a6179568cbe666e3d2cdf3d47c9f3964d9cb6a"
+    }
+  }
+}
