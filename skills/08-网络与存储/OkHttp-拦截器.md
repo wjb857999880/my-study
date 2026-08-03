@@ -4,9 +4,9 @@ domain: 08-网络与存储
 level: 了解
 target: 精通
 importance: 中
-last_assessed:
-last_reviewed: 2026-07-05
-next_review: 2026-08-03
+last_assessed: 2026-08-03
+last_reviewed: 2026-08-03
+next_review: 2026-09-02
 tags: [网络, 拦截器]
 related: [Retrofit]
 ---
@@ -17,7 +17,10 @@ related: [Retrofit]
 **OkHttp** 是 Android/Java 生态最主流的 HTTP 客户端,也是 **Retrofit 的默认底层引擎**。它把一次网络请求建模成一条**拦截器责任链(Interceptor Chain)**:`Call` 把 `Request` 交给链头,依次穿过重试、桥接(补头)、缓存、连接、真正发包(CallServer),再原路返回 `Response`。这种设计让**横切关注点(日志/鉴权/加密/重试/动态 BaseUrl)都能写成一段拦截器插进链里**、不侵入业务。除拦截器外,OkHttp 还内建**连接池复用、HTTP/2 多路复用、透明 GZIP、响应缓存、异步 Dispatcher 调度**,几乎是一套高性能网络栈的事实标准。
 
 ## 考核记录
-（尚未考核）
+- **2026-08-03** 判定：了解 → 了解 ✅ ｜ 考官：AI
+  - 表现：责任链概念与作用讲得清晰；应用拦截器 vs 网络拦截器区别（位置/调用次数/缓存命中/所见响应）答对。
+  - 依据：了解档概念题全部答对；熟悉档基础用法题（构造 Request + execute/enqueue）未能作答，需补充。
+
 
 ## 核心原理 / 关键点
 
@@ -90,6 +93,36 @@ flowchart LR
   - 限额:`maxRequests = 64`(全局并发上限)、`maxRequestsPerHost = 5`(同 host 上限)。
   - 超额的先进 `readyAsyncCalls`;有空位(某请求完成)时按 host 重排后晋升到 `runningAsyncCalls`。
   - 用一个 `ExecutorService`(无界缓存线程池,`SynchronousQueue`)跑,每个 `AsyncCall` 最终以同步方式执行拦截器链。
+
+### 5.5 基础用法（熟悉档考点）
+
+> **考核真题**：用 OkHttp 发一个 GET 请求，带 Authorization header 和 query 参数 `?page=1`，写出关键代码。
+
+```java
+// 1. 创建 OkHttpClient（应全局单例，这里示意）
+val client = OkHttpClient()
+
+// 2. 构造 Request，链式添加 header 和 query 参数
+val request = Request.Builder()
+    .url("https://api.example.com/user/list?page=1")
+    .addHeader("Authorization", "Bearer token123")
+    .build()
+
+// 3. 同步执行（阻塞当前线程，不要在主线程调用）
+val response: Response = client.newCall(request).execute()
+println(response.code)
+println(response.body?.string())
+
+// 4. 异步执行
+client.newCall(request).enqueue(object : Callback {
+    override fun onFailure(call: Call, e: IOException) { e.printStackTrace() }
+    override fun onResponse(call: Call, response: Response) {
+        println(response.body?.string())
+    }
+})
+```
+
+**要点**：`Request.Builder` 用 `.url()` 拼接完整 URL（query 参数直接写在 URL 里），`.addHeader()` 逐个加请求头，`newCall(request)` 生成 `Call`，`execute()` 同步 / `enqueue()` 异步。
 
 ### 6. 连接池与复用
 
