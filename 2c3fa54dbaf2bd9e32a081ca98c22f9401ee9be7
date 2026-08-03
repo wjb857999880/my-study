@@ -1,0 +1,173 @@
+skills/03-UI/RecyclerView讲解/源码解析.md
+  b6fb15efb38533c1 9,182
+skills/07-工程化/Gradle-构建.md
+  b6fb15efb38533c1 9,113
+skills/08-网络与存储/数据存储方案.md
+  b6fb15efb38533c1 9,108
+skills/03-UI/RecyclerView讲解/自定义组件.md
+  b6fb15efb38533c1 9,143
+skills/10-系统设计/图片加载架构.md
+  b6fb15efb38533c1 9,90
+skills/11-软技能/带人与技术培养.md
+  b6fb15efb38533c1 9,93
+skills/02-框架与Jetpack/Hilt-依赖注入.md
+  b6fb15efb38533c1 9,177
+skills/07-工程化/AI辅助开发工作流.md
+  b6fb15efb38533c1 9,110
+skills/07-工程化/CI-CD流水线与发布.md
+  b6fb15efb38533c1 9,108
+skills/09-数据结构与算法/二叉树.md
+  b6fb15efb38533c1 9,94
+skills/10-系统设计/推送与IM架构.md
+  b6fb15efb38533c1 9,92
+skills/12-跨平台与扩展/跨平台开发-Flutter与RN.md
+  b6fb15efb38533c1 68
+skills/08-网络与存储/OkHttp-拦截器.md
+  b6fb15efb38533c1 9,113
+skills/06-系统底层/NDK与JNI开发.md
+  b6fb15efb38533c1 9,122
+skills/04-性能优化/卡顿与流畅度优化.md
+  b6fb15efb38533c1 9,90
+DASHBOARD.md
+  b6fb15efb38533c1 6
+skills/09-数据结构与算法/数组与字符串.md
+  b6fb15efb38533c1 9,91
+skills/01-语言/Kotlin-Flow与响应式编程.md
+  b6fb15efb38533c1 9,209
+skills/11-软技能/沟通协作与文档.md
+  b6fb15efb38533c1 9,93
+skills/02-框架与Jetpack/Jetpack-Compose.md
+  b6fb15efb38533c1 9,147
+skills/07-工程化/自动化测试.md
+  b6fb15efb38533c1 9,103
+skills/09-数据结构与算法/链表.md
+  b6fb15efb38533c1 9,91
+skills/03-UI/混合开发与WebView.md
+  b6fb15efb38533c1 9,109
+skills/06-系统底层/Android四大组件与生命周期.md
+  b6fb15efb38533c1 9,94
+skills/09-数据结构与算法/动态规划.md
+  b6fb15efb38533c1 9,92
+skills/11-软技能/技术方案设计与评审.md
+  b6fb15efb38533c1 9,98
+skills/05-架构/MVVM.md
+  b6fb15efb38533c1 9,112
+skills/12-跨平台与扩展/鸿蒙HarmonyOS开发.md
+  b6fb15efb38533c1 137
+skills/09-数据结构与算法/图-BFS与DFS.md
+  b6fb15efb38533c1 9,95
+skills/01-语言/多线程与并发.md
+  b6fb15efb38533c1 9,92
+skills/01-语言/Java核心与JVM原理.md
+  b6fb15efb38533c1 9,153
+skills/02-框架与Jetpack/Jetpack-Navigation.md
+  b6fb15efb38533c1 9,80
+skills/05-架构/组件化与模块化.md
+  b6fb15efb38533c1 9,97
+skills/12-跨平台与扩展/音视频开发.md
+  b6fb15efb38533c1 9,74
+skills/10-系统设计/数据埋点与AB实验.md
+  b6fb15efb38533c1 9,110
+skills/03-UI/屏幕适配与多形态设备.md
+  b6fb15efb38533c1 9,110
+skills/12-跨平台与扩展/KMP与Compose-Multiplatform.md
+  b6fb15efb38533c1 71
+skills/13-AI与端智能/端侧AI与智能端开发.md
+  b6fb15efb38533c1 9,108
+skills/10-系统设计/列表与流式架构.md
+  b6fb15efb38533c1 9,90
+skills/10-系统设计/网络与离线缓存策略.md
+  b6fb15efb38533c1 9,89
+scripts/rebuild_review_schedule.py
+  b6fb15efb38533c1 1-139
+skills/11-软技能/项目排期与风险.md
+  b6fb15efb38533c1 9,90
+skills/10-系统设计/性能与稳定性体系.md
+  b6fb15efb38533c1 9,89
+skills/03-UI/自定义View与绘制流程.md
+  b6fb15efb38533c1 9,93
+skills/02-框架与Jetpack/Room-数据库.md
+  b6fb15efb38533c1 9,86
+skills/09-数据结构与算法/回溯与贪心.md
+  b6fb15efb38533c1 9,94
+skills/09-数据结构与算法/栈与队列.md
+  b6fb15efb38533c1 9,91
+skills/03-UI/RecyclerView讲解/四级缓存.md
+  b6fb15efb38533c1 9
+  5ccef4aba8faea47 112
+skills/10-系统设计/移动端架构设计.md
+  b6fb15efb38533c1 9,90
+skills/01-语言/Kotlin-协程.md
+  b6fb15efb38533c1 9,249
+skills/06-系统底层/AOP与字节码插桩.md
+  b6fb15efb38533c1 112
+skills/11-软技能/Code-Review与代码质量.md
+  b6fb15efb38533c1 9,95
+skills/05-架构/MVI与Clean-Architecture.md
+  b6fb15efb38533c1 9,117
+skills/06-系统底层/Binder-原理.md
+  b6fb15efb38533c1 9,100
+skills/02-框架与Jetpack/WorkManager-后台任务.md
+  b6fb15efb38533c1 9,173
+skills/09-数据结构与算法/哈希表.md
+  b6fb15efb38533c1 9,93
+skills/01-语言/Kotlin-语言特性与Java互操作.md
+  b6fb15efb38533c1 9,96
+skills/04-性能优化/启动优化.md
+  b6fb15efb38533c1 9,106
+skills/11-软技能/技术债与重构规划.md
+  b6fb15efb38533c1 9,94
+skills/03-UI/事件分发机制.md
+  b6fb15efb38533c1 9,93
+skills/03-UI/动画与转场.md
+  b6fb15efb38533c1 9,71
+skills/08-网络与存储/移动端安全.md
+  b6fb15efb38533c1 9,74
+skills/06-系统底层/Handler-消息机制.md
+  b6fb15efb38533c1 9,81
+skills/04-性能优化/包体积优化.md
+  b6fb15efb38533c1 9,91
+skills/04-性能优化/内存优化.md
+  b6fb15efb38533c1 9,101
+skills/03-UI/RecyclerView讲解/GapWorker-prefetch.md
+  b6fb15efb38533c1 9,137
+skills/11-软技能/面试与项目表达.md
+  b6fb15efb38533c1 9,94
+skills/09-数据结构与算法/排序与二分查找.md
+  b6fb15efb38533c1 9,94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "2c3fa54dbaf2bd9e32a081ca98c22f9401ee9be7",
+  "prompts": {
+    "5ccef4aba8faea47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "971a0028-04fc-4ea7-b361-54ee29785364",
+        "model": "glm-5.2"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 298,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/596ca98cc349caf479d0b88ce795506e97797110c93a1035162a8897cc1e572a"
+    },
+    "b6fb15efb38533c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f4e4330a-3b30-46d7-9307-08713f9dc842",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 5606,
+      "total_deletions": 1088,
+      "accepted_lines": 4716,
+      "overriden_lines": 4,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/26b6b43f61e9860344f79f4783ae66ca4ae17a5864907604edbd65cc98909297"
+    }
+  }
+}
