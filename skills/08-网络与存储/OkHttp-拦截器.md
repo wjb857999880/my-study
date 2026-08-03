@@ -37,6 +37,29 @@ related: [Retrofit]
 - `Interceptor` 只一个方法 `Response intercept(Chain chain)`,链上每个节点调 `chain.proceed(request)` 把请求交给下一个、拿到下游返回的 Response 再加工。
 - 内置链顺序(从外到内):
   `用户拦截器(addInterceptor)` → `RetryAndFollowUpInterceptor` → `BridgeInterceptor` → `CacheInterceptor` → `ConnectInterceptor` → `网络拦截器(addNetworkInterceptor)` → `CallServerInterceptor`。
+
+```mermaid
+flowchart LR
+    Request["Request"]
+    AppInt["应用拦截器\naddInterceptor"]
+    RetryInt["RetryAndFollowUpInterceptor"]
+    BridgeInt["BridgeInterceptor"]
+    CacheInt["CacheInterceptor"]
+    ConnInt["ConnectInterceptor"]
+    NetInt["网络拦截器\naddNetworkInterceptor"]
+    CallInt["CallServerInterceptor"]
+    Response["Response"]
+
+    Request --> AppInt --> RetryInt --> BridgeInt --> CacheInt
+    CacheInt -->|"缓存命中\n直接返回"| Response
+    CacheInt -->|"缓存未命中"| ConnInt --> NetInt --> CallInt
+    CallInt -->|"网络请求\n写Socket/读Response"| Response
+
+    style CallInt fill:#e85,color:#fff
+    style ConnInt fill:#58a,color:#fff
+    style CacheInt fill:#a6d,color:#fff
+```
+
 - **关键区别**:
   - `addInterceptor`(**应用拦截器**):在**最外层**,只调一次(含重定向),连缓存命中也经过;适合日志 / 鉴权 / 统计。
   - `addNetworkInterceptor`(**网络拦截器**):在 `ConnectInterceptor` 之后、`CallServer` 之前,**每次真实网络请求都走**(含每次重定向),缓存命中**不走它**;适合看真实报文 / 压缩 / 连接复用。
