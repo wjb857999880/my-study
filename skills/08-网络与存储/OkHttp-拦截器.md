@@ -38,7 +38,29 @@ related: [Retrofit]
 - 内置链顺序(从外到内):
   `用户拦截器(addInterceptor)` → `RetryAndFollowUpInterceptor` → `BridgeInterceptor` → `CacheInterceptor` → `ConnectInterceptor` → `网络拦截器(addNetworkInterceptor)` → `CallServerInterceptor`。
 
-![OkHttp拦截器责任链](./okhttp-interceptor-chain.png)
+```mermaid
+flowchart LR
+    Request["Request"]
+    AppInt["应用拦截器\naddInterceptor"]
+    RetryInt["RetryAndFollowUpInterceptor"]
+    BridgeInt["BridgeInterceptor"]
+    CacheInt["CacheInterceptor"]
+    ConnInt["ConnectInterceptor"]
+    NetInt["网络拦截器\naddNetworkInterceptor"]
+    CallInt["CallServerInterceptor"]
+    Response["Response"]
+
+    Request --> AppInt --> RetryInt --> BridgeInt --> CacheInt
+    CacheInt -->|"缓存命中\n直接返回"| Response
+    CacheInt -->|"缓存未命中"| ConnInt --> NetInt --> CallInt
+    CallInt -->|"网络请求\n写Socket/读Response"| Response
+
+    style CallInt fill:#e85,color:#fff
+    style ConnInt fill:#58a,color:#fff
+    style CacheInt fill:#a6d,color:#fff
+```
+
+- **关键区别**：
 
 - **关键区别**:
   - `addInterceptor`(**应用拦截器**):在**最外层**,只调一次(含重定向),连缓存命中也经过;适合日志 / 鉴权 / 统计。
