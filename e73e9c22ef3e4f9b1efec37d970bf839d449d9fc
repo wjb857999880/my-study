@@ -1,0 +1,24 @@
+skills/08-网络与存储/OkHttp-拦截器.md
+  9d74a39a0a6cd69e 4,9,20-22,127-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "e73e9c22ef3e4f9b1efec37d970bf839d449d9fc",
+  "prompts": {
+    "9d74a39a0a6cd69e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "18d0f283-df1e-4144-909a-21800a49e39b",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 43,
+      "total_deletions": 17,
+      "accepted_lines": 74,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/c7f95ef3613658d499b1ec8e61ae1968e4ebe3d19619187a480ddb583b6916fa"
+    }
+  }
+}
