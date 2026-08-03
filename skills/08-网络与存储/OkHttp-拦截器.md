@@ -1,12 +1,12 @@
 ---
 title: OkHttp 拦截器
 domain: 08-网络与存储
-level: 了解
+level: 掌握
 target: 精通
 importance: 中
 last_assessed: 2026-08-03
 last_reviewed: 2026-08-03
-next_review: 2026-09-02
+next_review: 2026-11-01
 tags: [网络, 拦截器]
 related: [Retrofit]
 ---
@@ -17,9 +17,9 @@ related: [Retrofit]
 **OkHttp** 是 Android/Java 生态最主流的 HTTP 客户端,也是 **Retrofit 的默认底层引擎**。它把一次网络请求建模成一条**拦截器责任链(Interceptor Chain)**:`Call` 把 `Request` 交给链头,依次穿过重试、桥接(补头)、缓存、连接、真正发包(CallServer),再原路返回 `Response`。这种设计让**横切关注点(日志/鉴权/加密/重试/动态 BaseUrl)都能写成一段拦截器插进链里**、不侵入业务。除拦截器外,OkHttp 还内建**连接池复用、HTTP/2 多路复用、透明 GZIP、响应缓存、异步 Dispatcher 调度**,几乎是一套高性能网络栈的事实标准。
 
 ## 考核记录
-- **2026-08-03** 判定：了解 → 了解 ✅ ｜ 考官：AI
-  - 表现：责任链概念与作用讲得清晰；应用拦截器 vs 网络拦截器区别（位置/调用次数/缓存命中/所见响应）答对。
-  - 依据：了解档概念题全部答对；熟悉档基础用法题（构造 Request + execute/enqueue）未能作答，需补充。
+- **2026-08-03** 判定：了解 → 掌握 ✅ ｜ 考官：AI
+  - 表现：责任链概念清晰；应用/网络拦截器区别答对；基础用法（构造 Request + execute/enqueue）能写出；连接不复用原因分析（OkHttpClient 非单例、Address 不同）答到关键点。
+  - 依据：熟悉档用法题通过；掌握档排障题答对关键点（OkHttpClient 单例问题、Address 匹配）。精通档（ConnectInterceptor 源码、连接池复用细节）未作答。
 
 
 ## 核心原理 / 关键点
@@ -123,6 +123,20 @@ client.newCall(request).enqueue(object : Callback {
 ```
 
 **要点**：`Request.Builder` 用 `.url()` 拼接完整 URL（query 参数直接写在 URL 里），`.addHeader()` 逐个加请求头，`newCall(request)` 生成 `Call`，`execute()` 同步 / `enqueue()` 异步。
+
+### 5.6 连接不复用的排障思路（掌握档考点）
+
+> **考核真题**：你发现某个接口每次都重新建立 TCP 连接（没有复用），从拦截器链的角度分析可能原因有哪些？排查思路是什么？
+
+**可能原因**：
+1. **`OkHttpClient` 非单例** —— 每次请求 `new OkHttpClient()`，各实例有独立的连接池，无法跨请求复用。
+2. **自定义配置导致 Address 不同** —— 自定义 `Dns` / `SSLSocketFactory` / `ProxySelector` / `SocketFactory`，导致每个请求的 `Address`（含 host/port/dns/代理/sslConfig）与连接池中已有连接的 Address 无法匹配，连接池失效。
+
+**排查思路**：
+1. 确认 `OkHttpClient` 是否全局单例（搜 `new OkHttpClient`）。
+2. 确认是否有自定义 `Dns`、`ProxySelector`、`SSLConfig` 等影响 `Address` 的配置。
+3. 看日志：OkHttp 开启 `EventListener` 可看到连接创建 vs 复用事件。
+4. HTTP/2 场景：检查服务器是否支持 ALPN，HTTP/2 多路复用失败也会退化到每请求新建连接。
 
 ### 6. 连接池与复用
 
