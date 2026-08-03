@@ -138,6 +138,36 @@ client.newCall(request).enqueue(object : Callback {
 3. 看日志：OkHttp 开启 `EventListener` 可看到连接创建 vs 复用事件。
 4. HTTP/2 场景：检查服务器是否支持 ALPN，HTTP/2 多路复用失败也会退化到每请求新建连接。
 
+### 5.7 ConnectInterceptor 源码与连接池复用原理（精通档考点）
+
+> **考核真题**：请从源码角度讲一下 `ConnectInterceptor` 是如何建立连接并交给下一个拦截器的？连接池的复用发生在哪一步？
+
+**ConnectInterceptor 核心逻辑**（`RealInterceptorChain.proceed` → `getResponseWithInterceptorChain`）：
+
+```java
+// ConnectInterceptor.intercept()
+RealConnection connection = streamAllocation.connection(); // ①找复用连接
+route = streamAllocation.route();
+connection = routeSelector.next(connectionPool);            // ②连接池中找同 Address 的空闲连接
+// 若找到 → 直接复用（TCP+TLS 握手已过）
+// 若没找到 → ③RealConnection.newConnection() 新建
+socket = connection.socket();                               // ④拿到 Socket
+streamAllocation.connect(route, connectTimeout, readTimeout,
+    readTimeout, connectionPool, call, eventListener);
+chain.proceed(request, streamAllocation, connection);       // ⑤把 RealConnection 交给链下游（CallServerInterceptor）
+```
+
+**连接池复用发生在 ② 步**：
+`RouteSelector.next()` 内部调 `ConnectionPool.get(address)` —— 遍历池中空闲连接，只要 `address` 完全相等（host/port/dns/代理/sslConfig）就取出复用，**不重建 TCP+TLS**。
+
+**连接建立的完整时序**：
+1. `ConnectInterceptor` 从 `StreamAllocation` 拿到（刚从池中取出或新建的）`RealConnection`。
+2. `RealConnection.connect()` → 建立 TCP socket → 跑 TLS 握手（HTTP/2 还会有 ALPN 协商）。
+3. 握手完成后，`StreamAllocation` 把这条 `RealConnection` 的 `HttpStream` 传给下游 `CallServerInterceptor`。
+4. `CallServerInterceptor` 通过这个 `HttpStream` 写请求行/头、读响应行/头，走的是**同一个 socket**。
+
+**HTTP/2 多路复用**：一条 HTTP/2 连接上可以同时跑多个 `Stream`（对应多个 `Call`），每个 `Stream` 有独立的请求/响应，底层复用同一条 TCP 连接——这是在 `RealConnection` 内部通过 `FramedConnection` 实现的，对外表现就是一个 `RealConnection` 扛住所有并发请求。
+
 ### 6. 连接池与复用
 
 - 每条 `RealConnection` 是一个 TCP(+TLS)连接,持有 `Socket`;HTTP/2 一条连接可多路复用多个并发流。
@@ -171,8 +201,8 @@ client.newCall(request).enqueue(object : Callback {
 
 ## 待深入 / 下一步
 
-- [ ] 读 `RealInterceptorChain` 与 `ConnectInterceptor` 连接建立源码
-- [ ] HTTP/2 多路复用在 `RealConnection` 上的实现
+- [x] 读 `RealInterceptorChain` 与 `ConnectInterceptor` 连接建立源码
+- [x] HTTP/2 多路复用在 `RealConnection` 上的实现
 - [ ] `CacheInterceptor` 的 `CacheStrategy` 算法细节
 
 ## 参考资料
