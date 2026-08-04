@@ -1,0 +1,26 @@
+DASHBOARD.md
+  c7af7b3a960671a1 12,82-83,95,145,234
+skills/03-UI/RecyclerView讲解/源码解析.md
+  c7af7b3a960671a1 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "be28acb0d90e4c6885ca7b21dfcf6ee23eaddb03",
+  "prompts": {
+    "c7af7b3a960671a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a84455b3-76ed-45c7-aba6-51b2f9b292e1",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 24,
+      "accepted_lines": 36,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/29a9d95d26a122d24c421100ae9d3c7c0e01eb3f08edfad2aa14a0126e97f7a6"
+    }
+  }
+}
