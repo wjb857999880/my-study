@@ -1,0 +1,26 @@
+skills/03-UI/RecyclerView讲解/GapWorker-prefetch.md
+  c7af7b3a960671a1 4,7-9,20-22
+DASHBOARD.md
+  c7af7b3a960671a1 12,81-82,94,143,232
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "4c7a16d0253c22a184dbe770eb92a47f650ea38b",
+  "prompts": {
+    "c7af7b3a960671a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a84455b3-76ed-45c7-aba6-51b2f9b292e1",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 24,
+      "accepted_lines": 40,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/493048ba906259858cce23b2363a4bae9a519ddd07067c80444b04e481e23dcb"
+    }
+  }
+}
