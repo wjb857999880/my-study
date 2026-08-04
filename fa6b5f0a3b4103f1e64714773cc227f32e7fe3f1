@@ -1,0 +1,40 @@
+DASHBOARD.md
+  9d74a39a0a6cd69e 114,116,118
+skills/03-UI/RecyclerView讲解/四级缓存.md
+  c7af7b3a960671a1 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "fa6b5f0a3b4103f1e64714773cc227f32e7fe3f1",
+  "prompts": {
+    "9d74a39a0a6cd69e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "18d0f283-df1e-4144-909a-21800a49e39b",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 87,
+      "overriden_lines": 1,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/56ccf88b9e874ebb8dc9720bea4c2e57bcba02193813b0ea63ce158e2d502c31"
+    },
+    "c7af7b3a960671a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a84455b3-76ed-45c7-aba6-51b2f9b292e1",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 18,
+      "accepted_lines": 20,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/3caafdfbad5d848d03aca5dcb98698ed3c1513f6fd5f81bebc9e8cd38894c893"
+    }
+  }
+}
