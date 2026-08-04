@@ -1,12 +1,12 @@
 ---
 title: RecyclerView 预取源码(GapWorker)
 domain: 03-UI
-level: 了解
+level: 熟悉
 target: 掌握
 importance: 中
-last_assessed:
-last_reviewed: 2026-07-31
-next_review: 2026-08-31
+last_assessed: 2026-08-04
+last_reviewed: 2026-08-04
+next_review: 2026-10-03
 tags: [RecyclerView, 源码, 预取, GapWorker, 性能]
 related: [RecyclerView 四级缓存, RecyclerView 源码解析(Recycler / RecycledViewPool)]
 ---
@@ -17,7 +17,9 @@ related: [RecyclerView 四级缓存, RecyclerView 源码解析(Recycler / Recycl
 `GapWorker` 是 RecyclerView 自 25.1.0 起内置的**预取器**:在**主线程帧间隙的空闲时间**提前 `create` + `bind` 即将滑入屏幕的 ViewHolder,把「下一屏要付的建造成本」挪到空闲帧,从而降低实际滚动帧的掉帧。本篇读它的触发时机、时间预算(`deadlineNs`)、以及它如何复用 [[RecyclerView 源码解析(Recycler / RecycledViewPool)]] §5 那条 deadline 钩子。
 
 ## 考核记录
-（尚未考核）
+- **2026-08-04** 判定：了解 → 熟悉 ✅ ｜ 考官：AI
+  - 表现：prefetch 主线程本质与 Choreographer 触发机制答得准确；gatherPrefetchPositions 作用理解正确；掌握档流程细节不熟，主动要求补充。
+  - 依据：前两档稳稳通过，掌握档对 deadlineNs 全链路传递不熟，需继续补充。
 
 ## 核心原理 / 关键点
 
