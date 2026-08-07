@@ -1,12 +1,12 @@
 ---
 title: Android 四大组件与生命周期
 domain: 06-系统底层
-level: 了解
+level: 掌握
 target: 掌握
 importance: 高
-last_assessed:
-last_reviewed: 2026-07-24
-next_review: 2026-08-08
+last_assessed: 2026-08-07
+last_reviewed: 2026-08-07
+next_review: 2026-11-05
 tags: [四大组件, 生命周期, Activity]
 related: [Handler 消息机制]
 ---
@@ -17,7 +17,69 @@ related: [Handler 消息机制]
 Android 应用的基石:**Activity**(界面,完整生命周期 onCreate→onStart→onResume→onPause→onStop→onDestroy,及配置变更 / 异常重建)、**Service**(后台,started / bound 两种模式,Android 8+ 后台限制严)、**BroadcastReceiver**(广播,静态 / 动态注册)、**ContentProvider**(跨进程数据共享)。`Context` 是访问系统资源的入口。生命周期管理是高级开发的核心——内存泄漏、状态恢复、进程优先级都与之相关。Android 10+ 还有作用域存储、后台启动限制等演变。
 
 ## 考核记录
-（尚未考核）
+- **2026-08-07** 判定：(待考核) → 掌握 ✅ ｜ 考官：AI
+  - 表现：生命周期序列与状态划分答满；前台服务代码完整覆盖 API 26/34 版本差异；广播接收器问题答对并主动扩展 PendingIntent；Q4 架构分析基本到位，但对进程 kill 后 SavedStateHandle vs ViewModel onSaveInstanceState 的细节有模糊
+  - 依据：了解档稳过；熟悉档代码完整；掌握档核心概念清晰；精通档答至架构层但细节有缺口，定档为掌握
+
+## 考核问答（2026-08-07）
+
+### 熟悉档：前台服务代码（照做题）
+
+**Q.** App 需要在后台执行音乐播放任务，选用哪种 Service 模式？在 Android 8+ 上如何启动？Android 14 有何额外要求？
+
+**答案：**
+- 模式：前台服务（foreground），因为 Activity 销毁后仍需高优先级运行
+- Android 8+ 启动：
+  ```kotlin
+  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      startForegroundService(Intent(this, MyForegroundService::class.java))
+  } else {
+      startService(Intent(this, MyForegroundService::class.java))
+  }
+  ```
+  Service 内部须在 ~5s 内调用 `startForeground(NOTIFICATION_ID, notification)`
+  - Android 8+ 还需先创建 NotificationChannel：
+  ```kotlin
+  val channel = NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_LOW)
+  ```
+  - Android 14 须声明 `foregroundServiceType="mediaPlayback"`，且须申请 `FOREGROUND_SERVICE` 权限
+
+### 掌握档：BroadcastReceiver 动态注册问题（排障题）
+
+**Q.** Android 13 真机动态注册广播接收器，App 装好后收不到广播且无 crash，最可能原因？如何修复？
+
+**答案：**
+- 原因：Android 13+ 强制要求动态注册时显式指定 `RECEIVER_EXPORTED` 或 `RECEIVER_NOT_EXPORTED`，否则抛 SecurityException
+- 修复：
+  ```kotlin
+  registerReceiver(receiver, IntentFilter("com.example.ACTION_SOME_EVENT"), RECEIVER_NOT_EXPORTED)
+  ```
+- 关联注意：Android 12+ PendingIntent 必须指定 `FLAG_IMMUTABLE`（推荐）或 `FLAG_MUTABLE`，否则崩溃
+
+### 精通档：音乐播放器架构设计（原理深挖）
+
+**Q.** 音乐播放 App 有播放列表、正在播放歌曲、Notification 控制栏。不同界面导航经历配置变更和进程被 kill 后恢复。问：播放状态存哪里？Notification 在哪创建更新、如何跨界面同步？进程 kill 后恢复路径是什么？
+
+**答案要点：**
+- **当前歌曲 + 播放进度**：ViewModel + SavedStateHandle
+  - ViewModel 在配置变更后存活；SavedStateHandle 在进程被 kill 后恢复
+  - 播放进度不适合频繁序列化，最优方案是 Room 持久层（每 10s 写入）+ ViewModel 内存缓存
+- **播放列表**：Room 数据库 + Repository
+  - 持久结构化数据，与 UI 生命周期无关，由 Repository 层统一管理
+- **Notification 控制栏**：
+  - 在 `Service.onCreate()` 创建 NotificationChannel，`onStartCommand()` 调用 `startForeground()` 显示
+  - 前台服务提供高优先级进程保活，Notification 依赖 Service 生命周期
+  - 跨界面同步：用共享 ViewModel（或单例）持有一个 LiveData/Flow 暴露播放状态，所有界面观察同一数据源，Service 更新状态时同步通知所有界面
+- **进程 kill 后恢复路径**：
+  - 用户返回 → 系统重建 Application → onCreate → onStart → onRestoreInstanceState → onResume
+  - ViewModel 通过 `SavedStateHandle` 恢复之前保存的状态（播放歌曲 ID、进度、时间戳）
+  - Room 数据库直接加载播放列表
+  - Service 被重建并重新绑定，继续播放（Android 13+ 系统保留前台服务通知）
+
+**未完全掌握点（待补足）：**
+- SavedStateHandle vs ViewModel onSaveInstanceState 的细节差异
+- 进程 kill 后前台 Service 重建时机
+- 多进程模式下组件生命周期行为
 
 ## 核心原理 / 关键点
 
