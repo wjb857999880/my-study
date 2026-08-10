@@ -1,12 +1,12 @@
 ---
 title: Java 核心与 JVM 原理
 domain: 01-语言
-level: 了解
+level: 掌握
 target: 掌握
 importance: 高
-last_assessed: 2026-07-28
-last_reviewed: 2026-07-28
-next_review: 2026-08-17
+last_assessed: 2026-08-10
+last_reviewed: 2026-08-10
+next_review: 2026-11-08
 tags: [Java, JVM, 集合]
 related: [多线程与并发]
 ---
@@ -17,6 +17,9 @@ related: [多线程与并发]
 Java 仍是 Android 历史代码与 SDK 的基础。核心:**集合框架**(List/Set/Map 各实现与适用场景、HashMap 原理)、**面向对象**(封装 / 继承 / 多态、接口 vs 抽象类)、**泛型与类型擦除**、**异常体系**。JVM / ART 层:**类加载机制**(双亲委派)、**内存区域**(堆 / 栈 / 方法区)、**GC**(分代回收、可达性分析、GC Root)、对象生命周期。Android 上是 **ART**(编译成机器码,而非标准 JVM),但 JVM 知识是理解内存 / GC / 并发的地基。
 
 ## 考核记录
+- **2026-08-10** 判定：了解 → 掌握 ✅ ｜ 考官：AI
+  - 表现：了解档概念题(GC Root 可达性分析 vs 引用计数、HashMap 红黑树触发条件)全部答准；熟悉档 LinkedHashMap LRU 手写(含 ReentrantReadWriteLock 读写锁)正确；掌握档 ConcurrentHashMap 排障(merge 原子复合操作)与锁粒度分析正确；精通档(单桶锁对象身份、异步合并写入)暂未答出。
+  - 依据：稳稳守住掌握档——概念/照做/排障三层均验证通过；精通档深挖(JDK8  synchronized 锁对象身份细节、CAS vs 锁的取舍)仍需补充。距 target「掌握」已达成，下次复习 90 天后(2026-11-08)。
 - **2026-07-28** 判定：了解 → 了解 ✅(持平,但了解档质量由下沿升到上沿)｜ 考官：AI
   - 表现：复考昨日薄弱点全对——HashMap 转树规则记准(链表 ≥8 **且** 容量 ≥64、「且」非「或」、容量<64 先扩容);GC Root 定义正确(是可达性分析**起点对象**而非引用类型)、枚举完整(局部变量/参数、静态、常量、线程、JNI、synchronized 锁);引用计数致命在**循环引用**。但熟悉档照做题(LinkedHashMap 手写 LRU)给提示后仍写不出,accessOrder / removeEldestEntry 两关键点未掌握。
   - 依据：了解档概念能讲清且昨日薄弱点已补,稳稳守住;但「给 API 写出可行用法」的熟悉档还做不到。最高稳稳答到 = 了解。已补 LinkedHashMap LRU 实现到正文(3.1)。距 target「掌握」仍差 2 档,建议把集合实战用法(LinkedHashMap LRU、ConcurrentHashMap 并发用法)练熟后再考。
