@@ -1,0 +1,24 @@
+skills/01-语言/Java核心与JVM原理.md
+  c1330048901f40b5 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.17",
+  "base_commit_sha": "f20365fb89eda74b82fdcb463059489206ba1fbf",
+  "prompts": {
+    "c1330048901f40b5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "19e4b951-f320-445f-b431-6ca263a944ad",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 257,
+      "total_deletions": 4,
+      "accepted_lines": 257,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/6f81da7189cf0c0064e47db87a96369e025b54ac65e99d28aa70beb8f2e0b8de"
+    }
+  }
+}
