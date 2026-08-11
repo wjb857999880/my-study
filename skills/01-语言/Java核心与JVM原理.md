@@ -39,6 +39,45 @@ A: 双亲委派核心目的是**安全——防止核心 API 被篡改**。
 
 反例（不适用双亲委派）：攻击者写一个伪造的 `java.lang.SecurityManager`，由 app classloader 加载。一旦加载成功：System.setSecurityManager() 不会报错（因为是"同一个类"的实例）；所有 SecurityManager 检查全部变成 no-op；攻击者可以执行任意系统命令、读写任意文件、建立网络连接、加载更多恶意类——安全沙箱彻底失效。
 
+**Q: JMM（Java 内存模型）中，主内存与工作内存的语义是什么？volatile 的读写语义为什么能保证可见性（要讲透 Happens-Before 规则）？**
+
+A: JMM 将内存分为主内存（Main Memory）和工作内存（Working Memory）：
+
+- **主内存**：所有线程共享的内存区域，对应堆中的实例字段、静态字段、数组对象。线程间通信的枢纽。
+- **工作内存**：每个线程独立的私有区域，存储主内存中变量的**副本**。线程对变量的所有读写操作都在工作内存中进行，再同步回主内存。
+
+注意：工作内存是 JMM 的抽象概念，实际不存在独立的物理区域——它对应 CPU 寄存器、L1/L2/L3 缓存、主内存的层级结构。JMM 通过这套抽象屏蔽了硬件差异。
+
+**volatile 读写语义与 Happens-Before 规则：**
+
+Happens-Before 是 JMM 的核心因果关系定义：**如果 A Happens-Before B，那么 A 的执行结果对 B 可见**。它是一种**可传递的偏序关系**，不涉及执行顺序而是因果保证。
+
+volatile 两条核心规则：
+
+1. **写 happens-before 读**：对 volatile 变量 V 的写操作 W，happens-before 所有后续对 V 的读操作 R。这意味着 W 对主内存的修改，在 R 读之前已经同步到主内存，R 一定能读到 W 的结果——这就是可见性的本质。
+
+2. **内存屏障（Memory Barrier）**：volatile 写操作后会插入一个 **Store Barrier**，强制将工作内存中的值刷回主内存；volatile 读操作前插入 **Load Barrier**，强制让工作内存中的缓存失效，强制从主内存重新读取。这两条屏障从硬件层面保证了「写结果对读可见」。
+
+**为什么不是「线程间可见」这么简单？** 因为「可见」的定义依赖因果顺序。考虑以下场景：
+
+```java
+volatile boolean ready = false;
+int result = 0;
+
+// 线程 A
+result = 42;
+ready = true; // volatile 写
+
+// 线程 B
+if (ready) {           // volatile 读
+    System.out.println(result); // 一定打印 42
+}
+```
+
+若没有 volatile，JVM 可能指令重排：线程 A 可能先执行 `ready = true`（写入 CPU 寄存器或 store buffer，尚未刷回主内存），线程 B 读到 `ready = true` 但 `result` 仍是 0。加入 volatile 后，写 happens-before 读保证：线程 A 的 `result = 42`（普通变量写） happens-before `ready = true`（volatile 写） happens-before 线程 B 的 `if (ready)`（volatile 读） happens-before `println(result)`（普通变量读）。`result = 42` 的修改通过这种因果链传递到线程 B。
+
+**总结**：volatile 的可见性不是「线程间共享变量」这种模糊表述，而是严格的 **Happens-Before 偏序关系**——volatile 写与后续 volatile 读之间建立了因果隧道，突破了工作内存副本的隔离。普通变量的读写没有这个保证，JVM 可随意重排、CPU 可缓存、编译器可优化。
+
 - **2026-08-10** 判定：了解 → 掌握 ✅ ｜ 考官：AI
   - 表现：了解档概念题(GC Root 可达性分析 vs 引用计数、HashMap 红黑树触发条件)全部答准；熟悉档 LinkedHashMap LRU 手写(含 ReentrantReadWriteLock 读写锁)正确；掌握档 ConcurrentHashMap 排障(merge 原子复合操作)与锁粒度分析正确；精通档(单桶锁对象身份、异步合并写入)暂未答出。
   - 依据：稳稳守住掌握档——概念/照做/排障三层均验证通过；精通档深挖(JDK8  synchronized 锁对象身份细节、CAS vs 锁的取舍)仍需补充。距 target「掌握」已达成，下次复习 90 天后(2026-11-08)。
