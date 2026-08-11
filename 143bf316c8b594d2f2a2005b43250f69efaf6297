@@ -1,0 +1,26 @@
+skills/01-语言/Java核心与JVM原理.md
+  eb09b91b3a207ae3 4,7-9,20-41
+DASHBOARD.md
+  eb09b91b3a207ae3 18-73,81-82,90,182,189-250
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "143bf316c8b594d2f2a2005b43250f69efaf6297",
+  "prompts": {
+    "eb09b91b3a207ae3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "23836b05-62a9-4055-8d0f-a11f913d2946",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 297,
+      "total_deletions": 243,
+      "accepted_lines": 4880,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/1f05b6466b4fecbb5ede6093a6ef9515c5b8cd2af15bfa0d69b8b31d70ada2f7"
+    }
+  }
+}
