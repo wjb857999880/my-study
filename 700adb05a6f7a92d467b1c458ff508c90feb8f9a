@@ -1,0 +1,38 @@
+skills/06-系统底层/Binder-原理.md
+  eb09b91b3a207ae3 4,7-9,20-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "700adb05a6f7a92d467b1c458ff508c90feb8f9a",
+  "prompts": {
+    "c1330048901f40b5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "19e4b951-f320-445f-b431-6ca263a944ad",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 234,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/2f67199bb1efc1acf205aa3b9c3181a269c18b6c1233ded52e451d30df4ad232"
+    },
+    "eb09b91b3a207ae3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "23836b05-62a9-4055-8d0f-a11f913d2946",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 22,
+      "accepted_lines": 45,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/a150f3530efdd975a9ea63e3be0c90320e9c037aaf7002e4df43858daedc3f07"
+    }
+  }
+}
