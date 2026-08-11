@@ -2,7 +2,7 @@
 title: Java 核心与 JVM 原理
 domain: 01-语言
 level: 掌握
-target: 掌握
+target: 精通
 importance: 高
 last_assessed: 2026-08-10
 last_reviewed: 2026-08-10

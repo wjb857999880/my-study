@@ -2,7 +2,7 @@
 title: 鸿蒙 HarmonyOS 开发
 domain: 12-跨平台与扩展
 level: 了解
-target: 熟悉
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-27

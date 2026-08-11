@@ -2,7 +2,7 @@
 title: Binder 通信原理
 domain: 06-系统底层
 level: 精通
-target: 掌握
+target: 精通
 importance: 中
 last_assessed: 2026-08-11
 last_reviewed: 2026-08-11

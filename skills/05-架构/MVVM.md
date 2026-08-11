@@ -2,7 +2,7 @@
 title: MVVM
 domain: 05-架构
 level: 了解
-target: 掌握
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-05-01

@@ -2,7 +2,7 @@
 title: Android 四大组件与生命周期
 domain: 06-系统底层
 level: 掌握
-target: 掌握
+target: 精通
 importance: 高
 last_assessed: 2026-08-07
 last_reviewed: 2026-08-07

@@ -2,7 +2,7 @@
 title: RecyclerView 预取源码(GapWorker)
 domain: 03-UI
 level: 熟悉
-target: 掌握
+target: 精通
 importance: 中
 last_assessed: 2026-08-04
 last_reviewed: 2026-08-04

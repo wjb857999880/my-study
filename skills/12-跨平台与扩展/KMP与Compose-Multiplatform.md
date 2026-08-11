@@ -2,7 +2,7 @@
 title: Kotlin Multiplatform 与 Compose Multiplatform
 domain: 12-跨平台与扩展
 level: 了解
-target: 了解
+target: 精通
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24

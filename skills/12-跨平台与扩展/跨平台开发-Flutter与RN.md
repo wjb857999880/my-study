@@ -2,7 +2,7 @@
 title: 跨平台开发(Flutter/RN)
 domain: 12-跨平台与扩展
 level: 了解
-target: 了解
+target: 精通
 importance: 低
 last_assessed:
 last_reviewed: 2026-07-24

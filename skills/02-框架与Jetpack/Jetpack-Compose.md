@@ -2,7 +2,7 @@
 title: Jetpack Compose
 domain: 02-框架与Jetpack
 level: 了解
-target: 掌握
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-10

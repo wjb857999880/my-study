@@ -2,7 +2,7 @@
 title: Code Review 与代码质量
 domain: 11-软技能
 level: 了解
-target: 掌握
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-24

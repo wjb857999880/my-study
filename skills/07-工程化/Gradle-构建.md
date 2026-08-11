@@ -2,7 +2,7 @@
 title: Gradle 构建配置
 domain: 07-工程化
 level: 了解
-target: 熟悉
+target: 精通
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-15

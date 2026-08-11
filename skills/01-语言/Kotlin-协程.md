@@ -2,7 +2,7 @@
 title: Kotlin 协程
 domain: 01-语言
 level: 熟悉
-target: 掌握
+target: 精通
 importance: 高
 last_assessed: 2026-07-29
 last_reviewed: 2026-07-29

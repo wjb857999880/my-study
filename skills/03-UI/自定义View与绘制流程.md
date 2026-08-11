@@ -2,7 +2,7 @@
 title: 自定义 View 与绘制流程
 domain: 03-UI
 level: 了解
-target: 掌握
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-24

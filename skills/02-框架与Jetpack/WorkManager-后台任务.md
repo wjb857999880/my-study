@@ -2,7 +2,7 @@
 title: WorkManager 后台任务
 domain: 02-框架与Jetpack
 level: 了解
-target: 熟悉
+target: 精通
 importance: 中
 last_assessed:
 last_reviewed: 2026-07-24

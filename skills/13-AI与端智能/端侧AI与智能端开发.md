@@ -2,7 +2,7 @@
 title: 端侧 AI 与智能端开发
 domain: 13-AI与端智能
 level: 了解
-target: 掌握
+target: 精通
 importance: 高
 last_assessed:
 last_reviewed: 2026-07-27
