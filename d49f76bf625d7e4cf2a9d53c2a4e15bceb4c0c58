@@ -1,0 +1,150 @@
+skills/06-系统底层/NDK与JNI开发.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/沟通协作与文档.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/网络与离线缓存策略.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/图-BFS与DFS.md
+  eb09b91b3a207ae3 5
+skills/12-跨平台与扩展/KMP与Compose-Multiplatform.md
+  eb09b91b3a207ae3 5
+skills/02-框架与Jetpack/Jetpack-Compose.md
+  eb09b91b3a207ae3 5
+skills/12-跨平台与扩展/跨平台开发-Flutter与RN.md
+  eb09b91b3a207ae3 5
+skills/03-UI/自定义View与绘制流程.md
+  eb09b91b3a207ae3 5
+skills/03-UI/动画与转场.md
+  eb09b91b3a207ae3 5
+skills/05-架构/组件化与模块化.md
+  eb09b91b3a207ae3 5
+skills/01-语言/Java核心与JVM原理.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/二叉树.md
+  eb09b91b3a207ae3 5
+skills/04-性能优化/卡顿与流畅度优化.md
+  eb09b91b3a207ae3 5
+skills/02-框架与Jetpack/Room-数据库.md
+  eb09b91b3a207ae3 5
+skills/08-网络与存储/数据存储方案.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/链表.md
+  eb09b91b3a207ae3 5
+skills/05-架构/MVI与Clean-Architecture.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/哈希表.md
+  eb09b91b3a207ae3 5
+skills/01-语言/Kotlin-语言特性与Java互操作.md
+  eb09b91b3a207ae3 5
+skills/02-框架与Jetpack/Hilt-依赖注入.md
+  eb09b91b3a207ae3 5
+skills/03-UI/混合开发与WebView.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/推送与IM架构.md
+  eb09b91b3a207ae3 5
+skills/01-语言/多线程与并发.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/栈与队列.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/图片加载架构.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/带人与技术培养.md
+  eb09b91b3a207ae3 5
+skills/12-跨平台与扩展/鸿蒙HarmonyOS开发.md
+  eb09b91b3a207ae3 5
+skills/03-UI/RecyclerView讲解/源码解析.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/项目排期与风险.md
+  eb09b91b3a207ae3 5
+skills/03-UI/RecyclerView讲解/自定义组件.md
+  eb09b91b3a207ae3 5
+skills/02-框架与Jetpack/WorkManager-后台任务.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/数组与字符串.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/面试与项目表达.md
+  eb09b91b3a207ae3 5
+skills/12-跨平台与扩展/音视频开发.md
+  eb09b91b3a207ae3 5
+skills/13-AI与端智能/端侧AI与智能端开发.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/技术债与重构规划.md
+  eb09b91b3a207ae3 5
+skills/05-架构/MVVM.md
+  eb09b91b3a207ae3 5
+skills/03-UI/RecyclerView讲解/GapWorker-prefetch.md
+  eb09b91b3a207ae3 5
+skills/06-系统底层/Binder-原理.md
+  eb09b91b3a207ae3 5
+skills/08-网络与存储/移动端安全.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/性能与稳定性体系.md
+  eb09b91b3a207ae3 5
+skills/04-性能优化/包体积优化.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/列表与流式架构.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/技术方案设计与评审.md
+  eb09b91b3a207ae3 5
+skills/01-语言/Kotlin-Flow与响应式编程.md
+  eb09b91b3a207ae3 5
+skills/03-UI/事件分发机制.md
+  eb09b91b3a207ae3 5
+skills/07-工程化/Gradle-构建.md
+  eb09b91b3a207ae3 5
+skills/02-框架与Jetpack/Jetpack-Navigation.md
+  eb09b91b3a207ae3 5
+skills/06-系统底层/Android四大组件与生命周期.md
+  eb09b91b3a207ae3 5
+skills/01-语言/Kotlin-协程.md
+  eb09b91b3a207ae3 5
+skills/04-性能优化/内存优化.md
+  eb09b91b3a207ae3 5
+skills/06-系统底层/Handler-消息机制.md
+  eb09b91b3a207ae3 5
+skills/07-工程化/自动化测试.md
+  eb09b91b3a207ae3 5
+skills/04-性能优化/启动优化.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/动态规划.md
+  eb09b91b3a207ae3 5
+skills/06-系统底层/AOP与字节码插桩.md
+  eb09b91b3a207ae3 5
+skills/07-工程化/CI-CD流水线与发布.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/移动端架构设计.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/排序与二分查找.md
+  eb09b91b3a207ae3 5
+skills/11-软技能/Code-Review与代码质量.md
+  eb09b91b3a207ae3 5
+skills/09-数据结构与算法/回溯与贪心.md
+  eb09b91b3a207ae3 5
+skills/03-UI/屏幕适配与多形态设备.md
+  eb09b91b3a207ae3 5
+skills/10-系统设计/数据埋点与AB实验.md
+  eb09b91b3a207ae3 5
+skills/07-工程化/AI辅助开发工作流.md
+  eb09b91b3a207ae3 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "d49f76bf625d7e4cf2a9d53c2a4e15bceb4c0c58",
+  "prompts": {
+    "eb09b91b3a207ae3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "23836b05-62a9-4055-8d0f-a11f913d2946",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 4640,
+      "total_deletions": 64,
+      "accepted_lines": 4653,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/31a981f820c7e28f178f17e02662a735ab6f47ecf9dd5e39bd77ae2a86e55732"
+    }
+  }
+}
