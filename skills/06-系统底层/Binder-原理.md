@@ -1,12 +1,12 @@
 ---
 title: Binder 通信原理
 domain: 06-系统底层
-level: 了解
+level: 精通
 target: 掌握
 importance: 中
-last_assessed:
-last_reviewed: 2026-07-24
-next_review: 2026-08-10
+last_assessed: 2026-08-11
+last_reviewed: 2026-08-11
+next_review: 2027-02-07
 tags: [IPC, 底层]
 related: [AIDL]
 ---
@@ -17,7 +17,34 @@ related: [AIDL]
 **Binder** 是 Android 跨进程通信(IPC)的基石:系统服务(AMS/WMS/PMS 等)在 `system_server` 或独立进程,App 调它们几乎都走 Binder。它由四部分构成——Client、Server、`ServiceManager`(名称→引用的「DNS」)、以及内核里的 **Binder 驱动**(`/dev/binder`,负责转发)。相比普通 IPC 的两次用户/内核拷贝,Binder 靠 **mmap 把内核缓冲区与接收方用户空间映射到同一物理页**,实现**只需一次拷贝**;配合 AIDL 自动生成的 Stub/Proxy,跨进程调用写起来就像本地方法。
 
 ## 考核记录
-（尚未考核）
+
+- **2026-08-11** 判定：了解 → 精通 ✅ ｜ 考官：AI
+  - 表现：了解档讲清 IPC 需求与一次拷贝优势；熟悉档完整叙述 Stub/Proxy 数据流；掌握档指出同步调用在子线程卡住的原因，但遗漏 Binder 线程池耗尽机制；精通档讲透 mmap 同物理页原理及 1MB 上限代价。
+  - 依据：四档全部通过，达精通（最高档）。
+
+## 考核 Q&A
+
+### 了解档
+**Q: Binder 解决的是什么问题？它和 Linux 原生的 pipe/socket 比，核心优势是什么？**
+
+A: Binder 解决进程间通信问题。Linux 原生 pipe/socket 需要两次用户态/内核态拷贝，Binder 通过 mmap 把内核缓冲区与接收方用户空间映射到同一物理页，实现**只需一次拷贝**，同时自带调用方 UID/PID 身份、面向对象的 C/S 代理模式。
+
+### 熟悉档
+**Q: App 调用系统服务时，Client 端拿到的 Proxy 是怎么工作的？Stub/Proxy 模式下，一次跨进程调用的完整数据流是怎样的？**
+
+A: Client 通过 ServiceManager 按服务名查询，拿到该服务的 Binder 引用并包装成 Proxy。调用时：Proxy 将方法调用序列化为 Parcel → 调用 transact() 经 Binder 驱动 → 到达 Server 进程的 Stub.onTransact() → 反序列化参数、调用真正的服务实现 → 结果原路经驱动返回给 Proxy。看起来像本地调用，实则跨进程。
+
+### 掌握档
+**Q: 两个进程 A（正常 App）和 B（system_server 拉起的服务进程），A 调用 B 的方法时 B 无响应（不崩溃，只是卡住），可能的原因有哪些？**
+
+A: ① **Binder 线程池耗尽**：B 的 binder 线程池默认上限 15 线程（全忙或等锁），新请求排队不响应；② **B 端方法死锁**：方法内部发生死锁；③ **跨进程交叉死锁**：A 持锁 X 调用 B，B 尝试获取锁 X；④ **B 主线程阻塞**：B 的主线程（ActivityThread）在等某个条件，AMS 等主线程的操作超时；⑤ **B 方法无限循环**：死循环不释放 binder 线程。核心是 Binder 线程池有限，同步调用会一直等待不会立刻失败。
+
+### 精通档
+**Q: Binder 驱动中 mmap 映射的内核缓冲区，接收方用户空间为什么能直接读到？一次拷贝的代价是什么？**
+
+A: mmap 将内核缓冲区与接收方用户空间映射到**同一物理页**，数据从发送方用户态拷入内核缓冲区后，接收方用户态可直接读取——省掉第二次拷贝。
+
+代价：① **单事务大小上限约 1MB**，大数据需用 Ashmem / 文件 / ContentProvider 中转；② **mmap 预分配占用进程 VMA（虚拟内存区域）**，即使只传几 KB 也会占着整块缓冲区；③ **只支持一对一事务**，不能像共享内存那样多端同时访问。
 
 ## 核心原理 / 关键点
 
