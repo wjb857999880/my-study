@@ -1,12 +1,12 @@
 ---
 title: Java 核心与 JVM 原理
 domain: 01-语言
-level: 掌握
+level: 精通
 target: 精通
 importance: 高
-last_assessed: 2026-08-10
-last_reviewed: 2026-08-10
-next_review: 2026-11-08
+last_assessed: 2026-08-11
+last_reviewed: 2026-08-11
+next_review: 2027-02-07
 tags: [Java, JVM, 集合]
 related: [多线程与并发]
 ---
@@ -17,6 +17,28 @@ related: [多线程与并发]
 Java 仍是 Android 历史代码与 SDK 的基础。核心:**集合框架**(List/Set/Map 各实现与适用场景、HashMap 原理)、**面向对象**(封装 / 继承 / 多态、接口 vs 抽象类)、**泛型与类型擦除**、**异常体系**。JVM / ART 层:**类加载机制**(双亲委派)、**内存区域**(堆 / 栈 / 方法区)、**GC**(分代回收、可达性分析、GC Root)、对象生命周期。Android 上是 **ART**(编译成机器码,而非标准 JVM),但 JVM 知识是理解内存 / GC / 并发的地基。
 
 ## 考核记录
+- **2026-08-11** 判定：掌握 → 精通 ✅ ｜ 考官：AI
+  - 表现：掌握档 ABBA 死锁成因（Segment 不可重入锁、递归依赖场景）描述完整；精通档双亲委派安全机制讲透，伪造 SecurityManager 场景具体危险分析正确。
+  - 依据：掌握档排障能力验证通过，精通档原理深挖（类加载器层级 + 安全机制）答到内核，四档全部通过，达精通。
+
+## 考核 Q&A
+
+### 掌握档
+**Q: ConcurrentHashMap 的 computeIfAbsent 在 JDK 8 有个经典陷阱——当 fn 本身会访问同一个 map 时会死锁。请描述成因，并给出一个实际业务场景。**
+
+A: JDK 8 的 Segment 继承自 ReentrantLock，是不可重入锁。当外层 computeIfAbsent 持有 Segment S1 的锁，调用 fn，fn 内部对不同 key 再次调用 computeIfAbsent 时：线程 T1 持有 S1 等待 S2，线程 T2 持有 S2 等待 S1 → 经典 ABBA 死锁。
+
+实际业务场景：递归依赖的缓存查找——模块 A 依赖 B、C，B 和 C 又反过来依赖 A，形成递归调用链，每次调用 computeIfAbsent 锁定不同 Segment，触发死锁。
+
+### 精通档
+**Q: JVM 类加载双亲委派机制，为什么需要它？不使用双亲委派会出现什么具体的安全问题？**
+
+A: 双亲委派核心目的是**安全——防止核心 API 被篡改**。
+
+双亲委派模型：Bootstrap → Platform → Application → 自定义加载器。每个类加载器先委托父加载器、父找不到才自己加载。这样 app classloader 永远没机会加载 `java.lang.String`、`java.lang.SecurityManager` 等核心类。
+
+反例（不适用双亲委派）：攻击者写一个伪造的 `java.lang.SecurityManager`，由 app classloader 加载。一旦加载成功：System.setSecurityManager() 不会报错（因为是"同一个类"的实例）；所有 SecurityManager 检查全部变成 no-op；攻击者可以执行任意系统命令、读写任意文件、建立网络连接、加载更多恶意类——安全沙箱彻底失效。
+
 - **2026-08-10** 判定：了解 → 掌握 ✅ ｜ 考官：AI
   - 表现：了解档概念题(GC Root 可达性分析 vs 引用计数、HashMap 红黑树触发条件)全部答准；熟悉档 LinkedHashMap LRU 手写(含 ReentrantReadWriteLock 读写锁)正确；掌握档 ConcurrentHashMap 排障(merge 原子复合操作)与锁粒度分析正确；精通档(单桶锁对象身份、异步合并写入)暂未答出。
   - 依据：稳稳守住掌握档——概念/照做/排障三层均验证通过；精通档深挖(JDK8  synchronized 锁对象身份细节、CAS vs 锁的取舍)仍需补充。距 target「掌握」已达成，下次复习 90 天后(2026-11-08)。
