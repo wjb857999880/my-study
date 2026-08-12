@@ -1,12 +1,12 @@
 ---
 title: OkHttp 拦截器
 domain: 08-网络与存储
-level: 掌握
+level: 精通
 target: 精通
 importance: 中
-last_assessed: 2026-08-03
-last_reviewed: 2026-08-03
-next_review: 2026-11-01
+last_assessed: 2026-08-12
+last_reviewed: 2026-08-12
+next_review: 2027-02-08
 tags: [网络, 拦截器]
 related: [Retrofit]
 ---
@@ -17,6 +17,9 @@ related: [Retrofit]
 **OkHttp** 是 Android/Java 生态最主流的 HTTP 客户端,也是 **Retrofit 的默认底层引擎**。它把一次网络请求建模成一条**拦截器责任链(Interceptor Chain)**:`Call` 把 `Request` 交给链头,依次穿过重试、桥接(补头)、缓存、连接、真正发包(CallServer),再原路返回 `Response`。这种设计让**横切关注点(日志/鉴权/加密/重试/动态 BaseUrl)都能写成一段拦截器插进链里**、不侵入业务。除拦截器外,OkHttp 还内建**连接池复用、HTTP/2 多路复用、透明 GZIP、响应缓存、异步 Dispatcher 调度**,几乎是一套高性能网络栈的事实标准。
 
 ## 考核记录
+- **2026-08-12** 判定：掌握 → 精通 ✅ ｜ 考官：AI
+  - 表现：连接不复用排障题答全要点（OkHttpClient单例+Address匹配）；精通档StreamAllocation/RealConnection/HttpStream三者时序与协作关系讲述完整准确。
+  - 依据：掌握档排障题答全；精通档源码级时序题完全答对，三者关系清晰。
 - **2026-08-03** 判定：了解 → 掌握 ✅ ｜ 考官：AI
   - 表现：责任链概念清晰；应用/网络拦截器区别答对；基础用法（构造 Request + execute/enqueue）能写出；连接不复用原因分析（OkHttpClient 非单例、Address 不同）答到关键点。
   - 依据：熟悉档用法题通过；掌握档排障题答对关键点（OkHttpClient 单例问题、Address 匹配）。精通档（ConnectInterceptor 源码、连接池复用细节）未作答。
