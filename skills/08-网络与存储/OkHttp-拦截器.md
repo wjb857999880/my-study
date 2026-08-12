@@ -210,7 +210,7 @@ chain.proceed(request, streamAllocation, connection);       // ⑤把 RealConnec
 
 ## 参考资料
 
-- OkHttp 官网:https://square.github.io/okhttp/
+- OkHttp 官网:https://square.github.io/okhttp/4.x/okhttp/
 - 拦截器 Wiki(应用 vs 网络拦截器):https://github.com/square/okhttp/wiki/Interceptors
 - 源码:https://github.com/square/okhttp
 - 缓存 / 连接 API:https://square.github.io/okhttp/4.x/okhttp/okhttp3/-cache/
