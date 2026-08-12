@@ -157,3 +157,66 @@ Fragment 寄生于 Activity,生命周期更细(onAttach/onCreate/onCreateView/on
 - SavedStateHandle vs ViewModel onSaveInstanceState 的细节差异
 - 进程 kill 后前台 Service 重建时机
 - 多进程模式下组件生命周期行为
+
+### 精通档：后台下载任务架构设计（WorkManager + 前台服务组合）
+
+**Q.** App 需要在后台执行文件下载任务，要求：App 在前台时跟踪下载进度、退到后台后下载继续、完成后发通知、点击通知能打开结果页。请设计这个后台任务的方案，说明用哪种组件、关键 API、注意事项（版本兼容）。并从进程优先级角度说明如何进一步提升可靠性。
+
+**答案要点：**
+
+**方案一：WorkManager + 前台服务组合（推荐）**
+
+- **分工职责：**
+  - WorkManager：任务调度与重试（什么时候做、失败了怎么办、任务队列管理）
+  - 前台服务：任务实际执行与状态展示（正在做什么、如何通知用户）
+- **协作流程：**
+  1. 用户触发 → WorkManager 调度 OneTimeWorkRequest，设置 RetryPolicy（Exponential backoff）
+  2. WorkManager 触发前台服务启动，调用 `startForegroundService()`
+  3. 前台服务执行实际下载，在通知栏展示进度
+  4. 任务完成 → 前台服务停止 → WorkManager 标记 SUCCESS
+  5. 任务失败 → 前台服务停止 → WorkManager 根据 RetryPolicy 重试
+- **代码示意：**
+  ```kotlin
+  class DownloadWorker(
+      appContext: Context,
+      workerParams: WorkerParameters
+  ) : CoroutineWorker(appContext, workerParams) {
+      override suspend fun doWork(): Result {
+          val url = inputData.getString(KEY_URL) ?: return Result.failure()
+          // 启动前台服务执行下载
+          val intent = Intent(applicationContext, DownloadForegroundService::class.java).apply {
+              action = DownloadForegroundService.ACTION_START
+              putExtra(DownloadForegroundService.EXTRA_URL, url)
+          }
+          applicationContext.startForegroundService(intent)
+          return try {
+              serviceScope.awaitCompletion()
+              Result.success(workDataOf(KEY_FILE_PATH to downloadedPath))
+          } catch (e: Exception) {
+              if (runAttemptCount < MAX_RETRIES) Result.retry() else Result.failure()
+          }
+      }
+  }
+  ```
+- **为什么比纯前台服务更可靠：**
+
+| 维度 | 纯前台服务 | WorkManager + 前台服务 |
+|------|-----------|----------------------|
+| 系统杀进程后恢复 | ❌ 丢失 | ✅ WorkManager 自动恢复 |
+| 重试机制 | ❌ 手动实现 | ✅ 内置 Exponential backoff |
+| 电池优化 | ❌ 易耗电 | ✅ WorkManager 批量、延迟 |
+| 任务约束 | ❌ 难实现 | ✅ 网络/充电/空闲等约束 |
+| 状态持久化 | ❌ 内存易失 | ✅ Room 存储任务状态 |
+| 多任务队列 | ❌ 难管理 | ✅ WorkManager 原生支持 |
+
+- **对比多进程守护方案：**
+  - 多进程守护：可靠性高但复杂（进程间通信开销大、内存/GC 压力大）
+  - WorkManager + 前台服务：可靠性相当，但资源占用低、代码复杂度低、Google 官方推荐
+
+**方案二：多进程互相守护（适用于极端场景）**
+- 设置下载服务为独立进程（`android:process=":download"`）
+- 主进程通过 `bindService` + `onServiceDisconnected` 监听下载服务存活
+- 若下载进程被 kill，主进程感知后拉起恢复
+- 优势：独立进程被 kill 不影响主进程；劣势：进程间通信复杂、资源开销大
+
+**结论：** 推荐 WorkManager + 前台服务组合，兼顾可靠性与实现成本；多进程守护适用于音乐播放器等需独立进程保活的极端场景。
