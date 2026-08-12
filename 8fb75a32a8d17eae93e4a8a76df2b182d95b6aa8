@@ -1,0 +1,38 @@
+skills/08-网络与存储/OkHttp-拦截器.md
+  973218ced1514765 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "8fb75a32a8d17eae93e4a8a76df2b182d95b6aa8",
+  "prompts": {
+    "973218ced1514765": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85fa3a33-85cb-4b54-8814-aedce5fc4b51",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 17,
+      "total_deletions": 14,
+      "accepted_lines": 17,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/b7ef21d0503aa6249265224bd61b75e5221e859760930c3b00bf26f9b2b51407"
+    },
+    "eb09b91b3a207ae3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "23836b05-62a9-4055-8d0f-a11f913d2946",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 4760,
+      "overriden_lines": 4,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/86fe864347eed8a175142405c9453c2512a06928f2d12051d4b3d1b8ce667363"
+    }
+  }
+}
