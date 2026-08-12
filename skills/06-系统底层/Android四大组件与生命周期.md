@@ -1,12 +1,12 @@
 ---
 title: Android 四大组件与生命周期
 domain: 06-系统底层
-level: 掌握
+level: 精通
 target: 精通
 importance: 高
-last_assessed: 2026-08-07
-last_reviewed: 2026-08-07
-next_review: 2026-11-05
+last_assessed: 2026-08-12
+last_reviewed: 2026-08-12
+next_review: 2027-02-08
 tags: [四大组件, 生命周期, Activity]
 related: [Handler 消息机制]
 ---
@@ -17,6 +17,9 @@ related: [Handler 消息机制]
 Android 应用的基石:**Activity**(界面,完整生命周期 onCreate→onStart→onResume→onPause→onStop→onDestroy,及配置变更 / 异常重建)、**Service**(后台,started / bound 两种模式,Android 8+ 后台限制严)、**BroadcastReceiver**(广播,静态 / 动态注册)、**ContentProvider**(跨进程数据共享)。`Context` 是访问系统资源的入口。生命周期管理是高级开发的核心——内存泄漏、状态恢复、进程优先级都与之相关。Android 10+ 还有作用域存储、后台启动限制等演变。
 
 ## 考核记录
+- **2026-08-12** 判定：掌握 → 精通 ✅ ｜ 考官：AI
+  - 表现：后台下载方案（Foreground Service + WorkManager 组合）设计完整；精通档进程优先级顺序答对；WorkManager vs 多进程守护的权衡分析全面准确。
+  - 依据：掌握档方案完整；精通档后台保活架构对比分析到位。
 - **2026-08-07** 判定：(待考核) → 掌握 ✅ ｜ 考官：AI
   - 表现：生命周期序列与状态划分答满；前台服务代码完整覆盖 API 26/34 版本差异；广播接收器问题答对并主动扩展 PendingIntent；Q4 架构分析基本到位，但对进程 kill 后 SavedStateHandle vs ViewModel onSaveInstanceState 的细节有模糊
   - 依据：了解档稳过；熟悉档代码完整；掌握档核心概念清晰；精通档答至架构层但细节有缺口，定档为掌握
