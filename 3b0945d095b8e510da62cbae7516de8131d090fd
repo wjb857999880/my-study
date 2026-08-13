@@ -1,0 +1,53 @@
+skills/06-系统底层/Handler-消息机制.md
+  19d3e05732b23faa 79-214
+  cada62e6439a28f7 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "3b0945d095b8e510da62cbae7516de8131d090fd",
+  "prompts": {
+    "19d3e05732b23faa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86428af9-2fe0-468a-aeeb-36aea8dae5d6",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 136,
+      "total_deletions": 0,
+      "accepted_lines": 136,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/c64738f5a468db2d7609d506f097ce1fbc092665aaea65e7a27d0a879b7e9f56"
+    },
+    "973218ced1514765": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85fa3a33-85cb-4b54-8814-aedce5fc4b51",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 251,
+      "total_deletions": 0,
+      "accepted_lines": 235,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/b1ddc038c69d2eb9ae295be71f245446a5feb5f4beee5505e8c82b21233771d8"
+    },
+    "cada62e6439a28f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6e4a072-3b05-487d-b60c-88c39153aeb9",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 28,
+      "total_deletions": 29,
+      "accepted_lines": 25,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/30eef88486abcfc7d57169c017ac66e5cdfcda172f1a0dfbe1b75cc13103ab35"
+    }
+  }
+}
