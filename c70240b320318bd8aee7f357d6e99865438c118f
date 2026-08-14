@@ -1,0 +1,56 @@
+DASHBOARD.md
+  19d3e05732b23faa 92,97,107,109,111,178-179
+skills/02-框架与Jetpack/Jetpack-Compose.md
+  0ac3c8783d200fb4 4,7-9,20-24
+skills/11-软技能/Code-Review与代码质量.md
+  cada62e6439a28f7 4,7-9,20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "c70240b320318bd8aee7f357d6e99865438c118f",
+  "prompts": {
+    "0ac3c8783d200fb4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1a8f910-d97b-4922-9da8-48fdd9023bd5",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 12,
+      "accepted_lines": 15,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/691b472796f79529d562cd326801268552e63467981cc15ee3c31218245201fa"
+    },
+    "19d3e05732b23faa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86428af9-2fe0-468a-aeeb-36aea8dae5d6",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 16,
+      "accepted_lines": 9,
+      "overriden_lines": 4,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/6f4d15f0d88ea6cbdf3dafbc43f2e32fc93dc89594187001758fab5873119a6a"
+    },
+    "cada62e6439a28f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6e4a072-3b05-487d-b60c-88c39153aeb9",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 14,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/30eef88486abcfc7d57169c017ac66e5cdfcda172f1a0dfbe1b75cc13103ab35"
+    }
+  }
+}
