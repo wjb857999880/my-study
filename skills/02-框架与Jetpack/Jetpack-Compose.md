@@ -1,12 +1,12 @@
 ---
 title: Jetpack Compose
 domain: 02-框架与Jetpack
-level: 了解
+level: 精通
 target: 精通
 importance: 高
-last_assessed:
-last_reviewed: 2026-07-10
-next_review: 2026-08-19
+last_assessed: 2026-08-14
+last_reviewed: 2026-08-14
+next_review: 2027-02-10
 tags: [UI, 声明式]
 related: [RecyclerView]
 ---
@@ -17,6 +17,11 @@ related: [RecyclerView]
 Android 官方的**声明式 UI 框架**:用 `@Composable` 函数描述界面「应该长什么样」,而不是命令式地一步步改 View。核心思想是 **UI = f(state)**——状态变了,框架自动**重组**(re-run 受影响的 Composable)刷新界面;靠 `remember`/`State` 在重组之间持有数据,靠**编译器插件**把 Composable 函数改写成可记忆、可重启的结构。相较传统 View 体系,少了 `findViewById` 与手动同步、天然状态驱动,但也带来**重组与稳定性**这些新的性能课题。
 
 ## 考核记录
+
+- **2026-08-14** 判定：了解 → 精通 ✅ ｜ 考官：AI
+  - 表现：了解档概念清晰；熟悉档能正确实现状态提升与 UDF；掌握档能诊断 LazyColumn key 缺失问题并修正写法，还完整讲述了 derivedStateOf 适用/不适用的场景与误用后果；精通档能完整还原 Compose 编译器 Group 改写机制、skippable/restartable 条件、Snapshot 三层结构与写入隔离、两者协作闭环。
+  - 依据：四档全部独立答出且正确，原理链路完整，达到精通标准。
+
 （尚未考核）
 
 ## 核心原理 / 关键点

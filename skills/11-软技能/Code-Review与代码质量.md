@@ -1,12 +1,12 @@
 ---
 title: Code Review 与代码质量
 domain: 11-软技能
-level: 了解
+level: 精通
 target: 精通
 importance: 高
-last_assessed:
-last_reviewed: 2026-07-24
-next_review: 2026-08-12
+last_assessed: 2026-08-13
+last_reviewed: 2026-08-13
+next_review: 2027-02-09
 tags: [Code Review, 质量]
 related: []
 ---
@@ -17,7 +17,9 @@ related: []
 Code Review 是团队质量与知识共享的主阵地:看可读性 / 边界 / 异常 / 重复 / 命名 / 测试,提**建设性**意见,区分 must-fix 与 nit。同时建立质量门禁(Lint / 单测 / CI)把问题挡在合入前。好的 Review 既守质量,也培养作者。
 
 ## 考核记录
-（尚未考核）
+- **2026-08-13** 判定：(待考核) → 精通 ✅ ｜ 考官：AI
+  - 表现：概念清晰；能识别代码多层次问题（命名/风格/null安全/浮点精度）；能独立设计可落地的三层分层 Review 规范
+  - 依据：了解→熟悉→掌握→精通四档均达标；L3 分层设计及 trigger condition 定义准确，权衡取舍有据
 
 ## 核心方法 / 原则
 
