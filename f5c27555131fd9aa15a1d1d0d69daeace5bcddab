@@ -1,0 +1,38 @@
+skills/01-语言/Kotlin-Flow与响应式编程.md
+  2b0027def03f9531 206
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "f5c27555131fd9aa15a1d1d0d69daeace5bcddab",
+  "prompts": {
+    "0ac3c8783d200fb4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1a8f910-d97b-4922-9da8-48fdd9023bd5",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 6,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/3470ef6fd22babcb26df6651d79d8fd791e699c70c5786406619f8dac1cf29a4"
+    },
+    "2b0027def03f9531": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "774567b6-e818-46f9-9788-cb9d3bdad299",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/0ce5189fdfb0b7910817e28b12834abc10e8eb09803bc75facc3a1ca452e957b"
+    }
+  }
+}
