@@ -1,0 +1,24 @@
+skills/01-语言/Kotlin-Flow与响应式编程.md
+  2b0027def03f9531 29-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "66f4476b337bd27e5335b17ecd447839d223b90c",
+  "prompts": {
+    "2b0027def03f9531": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "774567b6-e818-46f9-9788-cb9d3bdad299",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 172,
+      "total_deletions": 0,
+      "accepted_lines": 177,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/8132e0d8eaa078961100196bdaf8cce8d188b90ea5e3f822e464306df629c39e"
+    }
+  }
+}
