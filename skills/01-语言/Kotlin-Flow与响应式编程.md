@@ -203,7 +203,7 @@ val users: StateFlow<UiState<List<User>>> = repo.getUsersStream()
 ## 参考资料
 
 - 官方 Flow 文档:https://kotlinlang.org/docs/flow.html
-- Android StateFlow/SharedFlow 指南:https://developer.android.com/kotlin/flow/stateflow-sharedflow
+- Android StateFlow/SharedFlow 指南:https://developer.android.com/kotlin/flow/stateflow-and-sharedflow?hl=zh-cn
 - Android Flow 与响应式:https://developer.android.com/kotlin/flow
 - `collectAsStateWithLifecycle`:https://developer.android.com/jetpack/androidx/releases/lifecycle
 - 关键源码类:`FlowCollector`、`FlowCoroutine`、`StateFlowImpl`、`SharedFlowImpl`、`SharingStarted`
