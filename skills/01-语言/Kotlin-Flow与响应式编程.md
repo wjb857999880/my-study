@@ -26,6 +26,178 @@ related: [Kotlin 协程, Jetpack Compose, MVVM]
   - 不足：① 背压说成「阻塞生产」(应为 suspend 挂起,非线程阻塞);② 响应式操作符链不熟练——`conflate` 误当作去重(应为 `distinctUntilChanged`)、`debounce(3000)` 单位错(应 300)、`collectLatest` 终端 lambda 非法(`q` 未绑定、误用 `emit`)。
   - 依据：了解档稳过;熟悉档要求「照写出可行用法」,Q4 操作符链不可编译且 conflate/distinct 概念混淆,未稳稳达到,故持平了解。差 1 档到 target(掌握)。
 
+## 考核题库（2026-08-17 考核版本）
+
+> 本节为本次考核的完整 Q&A 留档，按档位组织。每题含「题目 → 用户作答要点 → 考官反馈」。可作为下次复习 / 考核时的对照参考。
+
+### 一、了解档
+
+#### Q1. 冷热流本质 + 两次打印 "network call" 的根因
+
+**题目**：冷流 `Flow` 与热流 `StateFlow`/`SharedFlow` 的最本质区别是什么？为什么下面代码会打印两次 "network call"？
+
+```kotlin
+fun fetchUsers(): Flow<List<User>> = flow {
+    println("network call")
+    emit(api.getUsers())
+}
+val flow = fetchUsers()
+coroutineScope {
+    launch { flow.collect { println("A: $it") } }
+    launch { flow.collect { println("B: $it") } }
+}
+```
+
+**用户作答**：
+
+- 冷流只有被 `collect` 才会启动，每次 `collect` 都会重新执行；热流会一直运行，多个订阅方共享一份数据。
+- 因为冷流执行了两次 `collect`，触发了两次 `fetchUsers`。
+
+**考官反馈**：✅ 概念清晰，「无 collect 不发射 / 每个 collector 各跑一遍」直击冷流多次订阅机制。
+
+#### Q2. SharedFlow vs StateFlow 选型 + 典型场景
+
+**题目**：两者都是热流多播，怎么区分？各举一个典型场景（不要说反）。
+
+**用户作答**：
+
+- `SharedFlow` 用于一次性事件通知，比如弹 Toast 的场景。
+- `StateFlow` 用于状态共享，比如 UI 依赖的状态数据。
+
+**考官反馈**：✅ 标准答案，「一次性事件 vs 状态」选型精准，场景对位。
+
+### 二、熟悉档
+
+#### Q3. 搜索派生 + Activity 收集（debounce + flatMapLatest + stateIn + repeatOnLifecycle）
+
+**题目**：ViewModel 已有输入流与变更方法如下，要求派生 `searchResults` 并在 Activity 中正确收集：
+
+```kotlin
+private val _query = MutableStateFlow("")
+val query: StateFlow<String> = _query.asStateFlow()
+fun onQueryChanged(text: String) { _query.value = text }
+```
+
+要求：① 300ms debounce + `distinctUntilChanged` + `flatMapLatest`（新搜索取消旧请求）；② 用 `stateIn` 转 `StateFlow`，`SharingStarted.WhileSubscribed(5000)`，初始 `UiState.Loading`；③ 异常包装成 `UiState.Error` 不向上崩；④ Activity 用 `repeatOnLifecycle(Lifecycle.State.STARTED)` 收集。
+
+**用户作答要点**（节选核心骨架）：
+
+```kotlin
+sealed class UiState<out T> {
+    object Loading : UiState<Nothing>()
+    data class Success<T>(val data: T) : UiState<T>()
+    data class Error(val throwable: Throwable) : UiState<Nothing>()
+}
+
+val searchResults: StateFlow<UiState<List<Item>>> = _query
+    .debounce(300)
+    .distinctUntilChanged()
+    .flatMapLatest { query ->
+        if (query.isBlank()) flowOf(UiState.Success(emptyList()))
+        else searchRepository.search(query)
+            .map { UiState.Success(it) }
+            .catch { e -> emit(UiState.Error(e)) }
+            .onStart { emit(UiState.Loading) }
+    }
+    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UiState.Loading)
+
+lifecycleScope.launch {
+    repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.searchResults.collect { state -> /* when 分支渲染 */ }
+    }
+}
+```
+
+**考官反馈**：✅ 可编译可运行。派生链顺序正确（否则 `distinctUntilChanged` 会失效），异常用 `.catch{}` 而非 try/catch 是 Flow 习惯写法，`WhileSubscribed(5000)` 保证旋转屏不重启网络，`repeatOnLifecycle(STARTED)` 对齐 UI 可见性。写法相当老练。
+
+### 三、掌握档
+
+#### Q5. SharedFlow `replay = 1` 导致 Toast 旋转屏重弹
+
+**题目**：下面 ViewModel 用 `MutableSharedFlow(replay = 1)` 暴露 toastEvents，旋转屏幕后 Toast 会重复弹出。请回答根因 / 修复方案 / 状态 vs 事件判断标准。
+
+```kotlin
+class ProfileViewModel : ViewModel() {
+    private val _toastEvents = MutableSharedFlow<String>(replay = 1)
+    val toastEvents: SharedFlow<String> = _toastEvents.asSharedFlow()
+    fun showError(msg: String) { viewModelScope.launch { _toastEvents.emit(msg) } }
+}
+```
+
+**用户作答**：
+
+1. **根因**：`replay = 1` 意味着新订阅者订阅时立即收到最近一次发送的值。旋转屏 → Activity 销毁重建（新的 Activity 实例）→ ViewModel 不销毁（由 ViewModelStoreOwner 管理）→ 新 Activity 订阅 → SharedFlow 检测到新 collector，立刻 replay 最近一次 emit → Toast 重弹。语义错误：Toast 是「消费即消失」的事件，但 replay 让它变成了「可重放的状态」。
+2. **修复方案**：
+   - `replay = 0`：新订阅者不补发历史值
+   - `extraBufferCapacity = 1`：给「发射时尚无订阅者」的情况留缓冲位
+   - `onBufferOverflow = BufferOverflow.DROP_OLDEST`：缓冲满时丢最老的，不崩
+3. **状态 vs 事件判断标准**：看「订阅者加入时，是否需要知道最近一次的值」。
+
+**考官反馈**：✅ 根因链路完整（Activity 重建 + ViewModel 存活 + 新 collector replay），三参修复准确，判断标准精炼到位。
+
+### 四、精通档
+
+#### Q6. 新闻 Repository 架构设计（Room + Flow + 网络合并 + 30s 抖动）
+
+**题目**：为新闻 App 设计 Repository 层，满足 5 条行为：① UI 订阅立即拿 Room 本地缓存；② 后台同时发起网络请求；③ 网络成功写 Room（UI 通过观察 Room 自动刷新）；④ 网络失败区分「本地有数据 / 本地无数据」两种 UI 态；⑤ 30 秒内已成功拉取过不重复请求。
+
+子问题：① Resource 层次设计；② 核心 Flow 链；③ 三个 trade-off（Room 当 SSoT / 30s 窗口 / 重试边界）。
+
+**用户作答**：
+
+1. **Resource 设计**：
+
+   ```kotlin
+   sealed class Resource<out T> {
+       data class Loading<T>(val data: T?) : Resource<T>()
+       data class Success<T>(val data: T) : Resource<T>()
+       data class Error<T>(
+           val message: String,
+           val data: T?,
+           val isFromCache: Boolean,
+       ) : Resource<T>()
+   }
+   ```
+
+   - `Loading.data`：加载中时本地是否有缓存（有则先展示，无则全屏 Loading）
+   - `Success.data`：网络/本地都成功，最新数据
+   - `Error.data + isFromCache`：错误时区分「有缓存 → 旧数据 + banner」与「真的什么都没有 → 全屏错误」
+
+2. **核心 Flow 链**（骨架）：
+
+   ```kotlin
+   class NewsRepository(private val newsDao: NewsDao, private val newsApi: NewsApi) {
+       private var lastFetchTime = 0L
+       private val cacheValidDuration = 30_000L
+
+       fun getNews(category: String): Flow<Resource<List<News>>> = channelFlow {
+           val localSource = newsDao.observeByCategory(category)
+           localSource.collect { cached -> if (cached.isNotEmpty()) send(Resource.Loading(data = cached)) }
+
+           val now = System.currentTimeMillis()
+           if (now - lastFetchTime < cacheValidDuration) return@channelFlow
+           lastFetchTime = now
+
+           try {
+               val remote = newsApi.getNews(category)
+               newsDao.upsertAll(remote)
+               lastFetchTime = System.currentTimeMillis()
+           } catch (e: Exception) {
+               send(Resource.Error(message = e.message ?: "Unknown error", data = null, isFromCache = false))
+           }
+       }
+   }
+   ```
+
+3. **三个 trade-off**：
+   - (a) **Room 当 SSoT**：用户不会因为看到旧新闻而困惑，但会因为看到错误而困惑。Network 当 SSoT 在网络抖动时前端需自己决定显示旧数据还是报错，体验难统一；Room 写成功后数据永远稳定，UI 只观察 Room，异常只有「网络拉新失败」一种。
+   - (b) **30s 窗口**：5 秒太短，用户快速滑动防不住；5 分钟太长，离开 App 再回来看到旧数据体验差；30 秒覆盖「用户在列表页停留 + 下拉刷新的操作窗口」，又不至于让用户看到太旧的数据。
+   - (c) **重试放 UI 层（ViewModel.retry()）**：Repository 只负责「拉数据」，不该知道「重试」在 UI 上长什么样；OkHttp Interceptor 适合处理 auth token 刷新 / 502 / 503 等基础设施瞬时错误，不适合业务层语义；ViewModel 持有 `retry()` 方法，由 UI 按钮调用，是正确的边界——Repository 保持纯「输入 → Flow 输出」的函数式风格，不持有重试状态。
+
+**考官反馈**：✅ 资源设计专业（字段全部对位 UI 行为），三个 trade-off 全部讲透，展现架构师级取舍能力。
+
+> ⚠️ **小提示（非扣分项）**：Q6.2 的 channelFlow 内 `localSource.collect{}` 是挂起循环，会阻塞后续网络拉取代码，真实运行中网络请求永远不会触发——架构思路正确但 Flow 内部细节需精修（改 `launch{}` 异步收集本地，或改用 `merge(localSource, remoteSource)`）。
+
 ## 核心原理 / 关键点
 
 ### 1. 响应式与 Flow 基础（冷流、collect 才发射、suspend）
