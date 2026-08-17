@@ -1,0 +1,26 @@
+DASHBOARD.md
+  2b0027def03f9531 6,76,79,87,180
+skills/01-语言/Kotlin-Flow与响应式编程.md
+  2b0027def03f9531 4,7-9,20-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "d06d0aebbac2f174e759ee0cdb026c498e6988ac",
+  "prompts": {
+    "2b0027def03f9531": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "774567b6-e818-46f9-9788-cb9d3bdad299",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 18,
+      "total_deletions": 16,
+      "accepted_lines": 18,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/7724095cab300881e9e9adc8b91b6519641d2dec24bfd10b5bd2148975579032"
+    }
+  }
+}
