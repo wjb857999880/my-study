@@ -1,0 +1,52 @@
+skills/01-语言/Kotlin-语言特性与Java互操作.md
+  4d8695ef95bcf6bf 4,7-9,20-25,97-168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.3",
+  "base_commit_sha": "60930895b3c4be8d0d625170d824b68037681b97",
+  "prompts": {
+    "2b0027def03f9531": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "774567b6-e818-46f9-9788-cb9d3bdad299",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/6506f699dbf885369b7228229b2df86eb8a529cab9e26830eb10415ab8910832"
+    },
+    "33f20f6b366d1193": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8a62a2d-9de8-4f2d-b5cc-243ef6259c06",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 0,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/d5e42fdb89b87e6c5eb77c4cf39fe6d3b31cb249096d2efaebc6beffbe61472f"
+    },
+    "4d8695ef95bcf6bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d158bc4-c6fe-4fdf-97d1-b85e9c497eb6",
+        "model": "MiniMax-M2.7"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 95,
+      "total_deletions": 20,
+      "accepted_lines": 89,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/07dad3b41b24c2692d67449cb9d4d486c4877f7f81ce9139e857fc2086fc95dc"
+    }
+  }
+}
