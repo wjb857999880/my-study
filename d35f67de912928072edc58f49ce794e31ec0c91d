@@ -1,0 +1,24 @@
+DASHBOARD.md
+  7e43ece20d545460 12,72,75,83,176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.3",
+  "base_commit_sha": "d35f67de912928072edc58f49ce794e31ec0c91d",
+  "prompts": {
+    "7e43ece20d545460": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9437c7f1-dcba-490c-8f69-ecc361d00166",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 7,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/d2444a43942aecb237fcb1ab3d077ade2382c5e3ce7fd76732a5dd35312bc358"
+    }
+  }
+}
