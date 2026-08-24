@@ -1,12 +1,12 @@
 ---
 title: Kotlin 协程
 domain: 01-语言
-level: 熟悉
+level: 精通
 target: 精通
 importance: 高
-last_assessed: 2026-07-29
-last_reviewed: 2026-07-29
-next_review: 2026-11-16
+last_assessed: 2026-08-24
+last_reviewed: 2026-08-24
+next_review: 2027-02-20
 tags: [并发, 异步]
 related: [RxJava, Handler]
 ---
@@ -17,6 +17,9 @@ related: [RxJava, Handler]
 Kotlin 的轻量级异步/并发方案。**协程不是线程**,而是「可挂起的计算」:执行到 `suspend` 挂起点时把当前状态打包、交还线程(不阻塞),条件满足后 `resume` 接着跑——于是能用同步写法写异步代码。一个线程可复用跑大量协程;再通过**结构化并发**(作用域 + 父子关系)统一管理生命周期、取消与异常。
 
 ## 考核记录
+- **2026-08-24** 判定：熟悉 → 精通 ✅ ｜ 考官：AI
+  - 表现：熟悉档稳过——并发拉取场景用 supervisorScope + async + Result 包装,CancellationException 重抛的细节到位;掌握档独立写出 retryWithTimeout(指数退避 100/200/400 + withTimeoutOrNull 总超时 + 只重试 IOException + sealed 三态返回),delay 放 catch 块里避开「成功后还等」反直觉行为是亮点;精通档从 CoroutineContext 的 Key→Element 索引 + 运行时单次 interceptContinuation 两层论证「单 interceptor」必然性,装饰器链方案 LoggingIODispatcher→Tracing→Metrics 落地干净,LoggingContinuation 透传 context 保 Job/Name/Handler 关键细节对,还指出「+ 静默覆盖无声失败」的线上陷阱和「限制不是 bug 是设计」的工程哲学。
+  - 依据：三档全部稳稳答到,无明显短板。精通档要求原理深挖 + 架构设计 + 权衡讲透,本题三项全到位。
 - **2026-07-29** 判定：(待考核) → 熟悉 ✅ ｜ 考官：AI
   - 表现：概念扎实——协程≠线程/轻量(KB级+用户态切换)/suspend 释放线程不阻塞、结构化并发(父子取消、父等子、解决泄漏)。熟悉档稳过:async 并发合并(`async{}` 先发起再 `await` 合并)、`withContext` 切线程(IO 读→Main 更新)都写得对。
   - 不足：掌握档未达——协作式取消根因讲对(无挂起点)但 API 写错(`isAlived()` 应为 `isActive`/`ensureActive()`/`yield()`);超时+兜底实现(`withTimeoutOrNull` + try/catch)不会写。
@@ -240,6 +243,186 @@ class MyVm : ViewModel() {
 - [ ] 读 `JobSupport`：Job 树与取消/异常传播的具体实现
 - [ ] 读 `DispatchedContinuation`：调度与拦截的衔接
 - [ ] Channel / `produce` 的冷热与背压
+
+## 四档考核 Q&A（2026-08-24）
+
+### 了解档
+**Q：「协程」和「线程」是什么关系？suspend 函数为什么「不阻塞线程」？**
+
+A：协程不是线程，是「可挂起的计算」——协程跑在线程上，但一个线程可以跑大量协程（协程 KB 级、用户态调度）。`suspend` 函数能挂起而不阻塞线程，靠的是编译器把它改写成 CPS（Continuation Passing Style），函数体变成一个状态机：执行到挂起点时把状态打包进状态机对象、返回 `COROUTINE_SUSPENDED` 哨兵值并交还线程；条件满足后调用 `resumeWith`，状态机按 `label` 跳到对应分支接着跑。所以"挂起"≠"线程阻塞"——挂起是**让出线程**（跑别的活），阻塞是真的**占着线程不放**。
+
+---
+
+### 熟悉档
+**Q：用户详情页要并发拉两个互不相关的接口（基本信息 + 最近 5 单订单），任一失败不影响另一个，合并成 Profile 展示。请写出 Kotlin 协程代码，包括选 scope 的考量。**
+
+A：用 `supervisorScope` + `async` + `Result<T>` 包装三件套：
+
+```kotlin
+data class Profile(
+    val basic: UserBasicInfo?,
+    val recentOrders: List<Order>,
+    val hasBasicError: Boolean,
+    val hasOrdersError: Boolean,
+)
+
+// 必须把 CancellationException 重抛，否则 runCatching 会把"协程取消"误判成"业务失败"
+suspend fun <T> safeCall(block: suspend () -> T): Result<T> = try {
+    Result.success(block())
+} catch (e: kotlinx.coroutines.CancellationException) {
+    throw e
+} catch (e: Throwable) {
+    Result.failure(e)
+}
+
+fun loadProfile() {
+    viewModelScope.launch {
+        _state.value = Loading
+        val profile = supervisorScope {                    // 互不影响（普通 coroutineScope 会连累兄弟）
+            val basicDef  = async { safeCall { repo.fetchBasicInfo(userId) } }
+            val ordersDef = async { safeCall { repo.fetchRecentOrders(userId) } }
+            Profile(
+                basic          = basicDef.await().getOrNull(),
+                recentOrders   = ordersDef.await().getOrNull().orEmpty(),
+                hasBasicError  = basicDef.await().isFailure,
+                hasOrdersError = ordersDef.await().isFailure,
+            )
+        }
+        _state.value = Success(profile)
+    }
+}
+```
+
+关键点：
+1. **`supervisorScope` 而非 `coroutineScope`**——前者一个子的失败不取消其它兄弟，后者会结构化传播。
+2. **`Result<T>` 隔离业务异常**——`await()` 不会再抛业务异常，只是返回 `Result.failure`。
+3. **`CancellationException` 必须重抛**——这是协程取消信号，不能当错误吞掉，否则 UI 会展示错误的占位状态。
+4. **`viewModelScope`** 默认 Main 调度器 + SupervisorJob，Android 上首选，不用自建 scope，避免 GlobalScope 泄漏。
+
+---
+
+### 掌握档
+**Q：写一个通用的 suspend 包装函数 `retryWithTimeout`，把「重试 + 指数退避 + 总超时」捏在一起。需求：最多 3 次重试、100/200/400ms 指数退避、只重试 `IOException`、整体 2s 超时（超时不抛，返回特殊状态）、`CancellationException` 必须原样上抛。**
+
+A：用 sealed `RetryResult<T>` 三态返回，手写 try/catch（不用 runCatching），`delay` 放在 catch 块里（不在循环末尾）：
+
+```kotlin
+sealed interface RetryResult<out T> {
+    data class Success<T>(val value: T) : RetryResult<T>
+    data class Failure(val cause: Throwable) : RetryResult<Nothing>
+    data object Timeout : RetryResult<Nothing>
+}
+
+suspend fun <T> retryWithTimeout(
+    block: suspend () -> T,
+    maxRetries: Int = 3,
+    initialDelayMillis: Long = 100L,
+    backoffFactor: Int = 2,
+    timeoutMillis: Long = 2000L,
+): RetryResult<T> = withTimeoutOrNull(timeoutMillis) {
+    var lastError: IOException? = null
+    var currentDelay = initialDelayMillis
+
+    for (attempt in 0..maxRetries) {
+        try {
+            return@withTimeoutOrNull RetryResult.Success(block())
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e                                                  // 取消原样上抛，不能吞
+        } catch (e: java.io.IOException) {
+            lastError = e
+            if (attempt < maxRetries) {
+                delay(currentDelay)                                  // 100 / 200 / 400
+                currentDelay *= backoffFactor
+            }
+        } catch (e: Throwable) {
+            throw e                                                  // 非法参数等不重试，立即抛
+        }
+    }
+    RetryResult.Failure(lastError ?: IllegalStateException("retry exhausted"))
+} ?: RetryResult.Timeout
+```
+
+关键设计：
+1. **sealed 三态而非 `Result<T>?`**——sealed 让 when 编译器强制穷尽，不会出现"忘了处理 null"的运行崩溃；`null` 会和"业务结果恰好是 null"冲突。
+2. **手写 try/catch 而非 `runCatching`**——后者会把 `CancellationException` 当成业务失败吃掉，导致 withTimeout 触发的取消被误判为 `Failure`，UI 状态错乱。
+3. **`delay` 故意放在 `catch (IOException)` 块里，不是循环末尾的 finally**——这样最后一次失败后不再做无意义 delay（也更容易在 2s 窗口内跑完所有重试），并避免"成功后还等一下"的反直觉行为。
+4. **`delay` 本身是 suspend 函数，放在 catch 块里但不在 try 内**——如果 delay 期间被 withTimeout 取消，抛出的 `CancellationException` 不会被这个 try 捕获，自然传播到外层 `withTimeoutOrNull` 被转成 `null → Timeout`。
+
+---
+
+### 精通档
+**Q1：为什么同一个 `CoroutineContext` 里最多只能有一个 `ContinuationInterceptor`？`scope.launch(Dispatchers.IO + MyLogInterceptor()) { ... }` 实际生效哪个？为什么？**
+
+A：两层原因，缺一不可：
+
+1. **`CoroutineContext` 是「Key → Element」的索引表，不是列表**——`+` 的语义是按 key 合并、同 key 替换。源码 `kotlin.coroutines.CoroutineContext.kt`：
+
+   ```kotlin
+   context.fold(this) { acc, element ->
+       val removed = acc.minusKey(element.key)  // ① 先把同 key 的旧元素抠掉
+       if (removed === EmptyCoroutineContext) element else { ... }
+   }
+   ```
+
+   当 element.key 是 `ContinuationInterceptor` 时，步骤 ① 把已存在的任意 ContinuationInterceptor 删除，只保留新加进来的那一个。
+
+2. **运行时也只调用一次 `interceptContinuation`**——每次协程被恢复，运行时只做 `context[ContinuationInterceptor].interceptContinuation(...)` 一次。即使你用反射硬塞两个，resume 时只有一个 wrapper 生效，另一个的代码根本不会被执行到。
+
+**谁生效**：右边那个赢。跟踪 `+` 过程：
+- `acc = Dispatchers.IO(key = ContinuationInterceptor)`
+- `element = MyLogInterceptor()(key = ContinuationInterceptor)`
+- `removed = acc.minusKey(ContinuationInterceptor) = EmptyCoroutineContext`（旧的 Dispatcher 被抠掉）
+- 命中 `removed === EmptyCoroutineContext` 分支 → 直接返回 `element`
+
+最终 context 里只剩 `MyLogInterceptor`，块代码不会跑在 IO 线程上（除非 `MyLogInterceptor` 内部自己切）。
+
+**最坑的是完全无声**——编译通过、运行不报错，只是性能/线程模型悄悄错了。等线上发现"为啥这个请求跑在主线程"时定位往往要花几小时。
+
+---
+
+**Q2：如果想「同时记日志 + 切 IO 线程」两个效果都生效，不能并列塞 context。怎么设计？写出关键代码 + 权衡。**
+
+A：装饰器模式——只造一个 interceptor 对象，把两件事都干了：
+
+```kotlin
+class LoggingIODispatcher(
+    private val delegate: CoroutineDispatcher = Dispatchers.IO,
+    private val tag: String = "coroutine",
+) : CoroutineDispatcher() {
+
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        delegate.dispatch(context, block)         // ① 切线程完全委托底层
+    }
+
+    override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> {
+        val logged = LoggingContinuation(continuation, tag)
+        return delegate.interceptContinuation(logged)   // ② resume 时打日志 → 切线程都生效
+    }
+}
+
+private class LoggingContinuation<T>(
+    private val delegate: Continuation<T>,
+    private val tag: String,
+) : Continuation<T> {
+    override val context: CoroutineContext = delegate.context     // 透传 Job / Name / Handler
+    override fun resumeWith(result: Result<T>) {
+        println("[$tag] resume on thread=${Thread.currentThread().name}")
+        delegate.resumeWith(result)
+    }
+}
+```
+
+要加 metrics / tracing 继续套娃：`TracingDispatcher(MetricsDispatcher(LoggingIODispatcher(Dispatchers.IO)))`。
+
+**权衡（三选项对比）**：
+
+| 维度 | 装饰器捏一个（本设计） | 直接塞两个（不可行） | withContext 手动嵌套 |
+|---|---|---|---|
+| 性能 | 每 continuation 多 1 层 wrapper（微秒级） | —— | 多 2 层 wrapper，且嵌套写在每个 launch 点 |
+| 可读性 | `launch(ioWithLogging) { }` 一眼看懂 | 看似自然，实际是陷阱，新成员大概率踩坑 | 每个调用点都得 `withContext(...)` 嵌套，模板代码爆炸 |
+| 可扩展性 | 加新横切关注点 = 加一个新 wrapper，通过构造函数组合，开闭原则友好 | 无法扩展 | 必须在所有调用点同时改，扩展性 ≈ 0 |
+
+**收尾认知**："+ 静默覆盖"不是 bug，是设计。Kotlin 团队刻意让 `+` 在 interceptor 上变成"替换"而非"组合"，因为即使能塞两个，运行时也只能跑一个——不如让行为可预测（后者赢）而不是"看起来组合但其中一个被悄悄忽略"。装饰器方案接受了"单 interceptor"约束，在单一对象内部实现真正的组合，既符合运行时模型，又满足产品需求。
 
 ## 参考资料
 - 官方指南：https://kotlinlang.org/docs/coroutines-guide.html
