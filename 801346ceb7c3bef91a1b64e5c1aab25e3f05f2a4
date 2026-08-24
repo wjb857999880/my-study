@@ -1,0 +1,26 @@
+skills/01-语言/Kotlin-协程.md
+  7e43ece20d545460 4,7-9,20-22
+DASHBOARD.md
+  7e43ece20d545460 74,76,84,86,176-177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.3",
+  "base_commit_sha": "801346ceb7c3bef91a1b64e5c1aab25e3f05f2a4",
+  "prompts": {
+    "7e43ece20d545460": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9437c7f1-dcba-490c-8f69-ecc361d00166",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 9,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/e7ac47a4a3e85ba847dcbadbb62fc9b0ef25afe25e406e3439fa2ad3819f3715"
+    }
+  }
+}
