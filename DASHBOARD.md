@@ -9,7 +9,7 @@
 
 ## 考核进度
 
-> 已考核 17 / 待考核 49（待考核默认为了解）
+> 已考核 18 / 待考核 48（待考核默认为了解）
 
 **待考核清单：**
 
@@ -19,7 +19,6 @@
 | AOP 与字节码插桩 | 系统底层 | 精通 |
 | CI/CD 流水线与发布 | 工程化 | 精通 |
 | Gradle 构建配置 | 工程化 | 精通 |
-| Jetpack Navigation | 框架与Jetpack | 精通 |
 | Kotlin Multiplatform 与 Compose Multiplatform | 跨平台与扩展 | 精通 |
 | MVI 与 Clean Architecture | 架构 | 精通 |
 | NDK 与 JNI 开发 | 系统底层 | 精通 |
@@ -69,10 +68,10 @@
 
 | 档位 | 数量 | 占比 |
 |------|------|------|
-| 了解 | 49 | 74% |
+| 了解 | 48 | 73% |
 | 熟悉 | 2 | 3% |
 | 掌握 | 0 | 0% |
-| 精通 | 15 | 23% |
+| 精通 | 16 | 24% |
 
 > 注：含待考核知识点（默认为了解）；level 仅考核后由 AI 判定。
 
@@ -81,7 +80,7 @@
 | 领域 | 知识点数 | 平均熟练度 |
 |------|----------|-----------|
 | 语言 | 5 | 精通（4.0） |
-| 框架与Jetpack | 5 | 熟悉（2.2） |
+| 框架与Jetpack | 5 | 掌握（2.8） |
 | UI | 9 | 熟悉（1.9） |
 | 性能优化 | 4 | 了解（1.0） |
 | 架构 | 3 | 熟悉（2.0） |
@@ -138,7 +137,6 @@ _（无）_
 | AI 辅助开发工作流 | 工程化 | 了解 | 2026-11-04 |
 | CI/CD 流水线与发布 | 工程化 | 了解 | 2026-11-06 |
 | Gradle 构建配置 | 工程化 | 了解 | 2026-11-09 |
-| Jetpack Navigation | 框架与Jetpack | 了解 | 2026-11-13 |
 | MVI 与 Clean Architecture | 架构 | 了解 | 2026-11-18 |
 | NDK 与 JNI 开发 | 系统底层 | 了解 | 2026-11-20 |
 | RecyclerView 自定义组件(ItemDecoration / ItemAnimator / LayoutManager) | UI | 了解 | 2026-11-23 |
@@ -174,12 +172,12 @@ _（无）_
 | Kotlin 协程 | 语言 | 精通 | 2027-02-20 |
 | 多线程与并发 | 语言 | 精通 | 2027-02-20 |
 | Hilt 依赖注入 | 框架与Jetpack | 精通 | 2027-02-22 |
+| Jetpack Navigation | 框架与Jetpack | 精通 | 2027-02-22 |
 
 ## 4. 目标进度（level < target）
 
 | 知识点 | 领域 | 现状 | 目标 | 差距 |
 |--------|------|------|------|------|
-| Jetpack Navigation | 框架与Jetpack | 了解 | 精通 | 3 档 |
 | Room 数据库 | 框架与Jetpack | 了解 | 精通 | 3 档 |
 | WorkManager 后台任务 | 框架与Jetpack | 了解 | 精通 | 3 档 |
 | RecyclerView 自定义组件(ItemDecoration / ItemAnimator / LayoutManager) | UI | 了解 | 精通 | 3 档 |
