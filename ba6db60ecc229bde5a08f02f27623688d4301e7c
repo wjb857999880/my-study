@@ -1,0 +1,26 @@
+skills/02-框架与Jetpack/Jetpack-Navigation.md
+  305265a9f41576aa 4,7-9,20-22,79-464
+DASHBOARD.md
+  305265a9f41576aa 12,71,74,83,175
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ba6db60ecc229bde5a08f02f27623688d4301e7c",
+  "prompts": {
+    "305265a9f41576aa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "60aee455-d80b-49d0-8ab9-8efb06baee2a",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 403,
+      "total_deletions": 19,
+      "accepted_lines": 1007,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/56e611acc6cfaed20d3e6571764671c357f5d5a59a680b1f948e15bcc266ed3a"
+    }
+  }
+}
