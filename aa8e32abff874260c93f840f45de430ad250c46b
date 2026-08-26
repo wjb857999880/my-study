@@ -1,0 +1,26 @@
+skills/02-框架与Jetpack/Hilt-依赖注入.md
+  305265a9f41576aa 4,7-9,20-22,176-373
+DASHBOARD.md
+  305265a9f41576aa 6,72,75,84,176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "aa8e32abff874260c93f840f45de430ad250c46b",
+  "prompts": {
+    "305265a9f41576aa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "60aee455-d80b-49d0-8ab9-8efb06baee2a",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 641,
+      "total_deletions": 10,
+      "accepted_lines": 641,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/24f25770565caa4f71bacb2c0723187f9399127d2f896539d232f1699bfc2b4a"
+    }
+  }
+}
