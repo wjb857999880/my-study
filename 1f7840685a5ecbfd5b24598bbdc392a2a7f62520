@@ -1,0 +1,40 @@
+skills/02-框架与Jetpack/Room-数据库.md
+  5f3b74cabc8f8126 4,7-9,20-22,88-285
+DASHBOARD.md
+  5f3b74cabc8f8126 6,12,70,73,82,174
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "1f7840685a5ecbfd5b24598bbdc392a2a7f62520",
+  "prompts": {
+    "305265a9f41576aa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "60aee455-d80b-49d0-8ab9-8efb06baee2a",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 601,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/7457f7160a3d57b56b5619b1cbd4be3d14f344f17c6c4318a90809a383ca99f3"
+    },
+    "5f3b74cabc8f8126": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4205dbe2-c7e5-4218-bc76-2230b7c4ba8e",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 217,
+      "total_deletions": 22,
+      "accepted_lines": 217,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/8e7de7433180be55e0a784b27d65c8ba0c4a479d2db300eddd51f388ab4202b3"
+    }
+  }
+}
