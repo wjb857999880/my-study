@@ -1,0 +1,52 @@
+skills/02-框架与Jetpack/WorkManager-后台任务.md
+  631c7501c84db6a0 4,7-9,20-22,175-375
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.7",
+  "base_commit_sha": "ae0a14db9196a334b4af819d9183e666891e8d20",
+  "prompts": {
+    "5f3b74cabc8f8126": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4205dbe2-c7e5-4218-bc76-2230b7c4ba8e",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/423815dc6825373438c5ecd9439db078f249a88b4a3d48785ca7798a59d23be2"
+    },
+    "631c7501c84db6a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47a9afc8-803f-49d5-85d2-595b3c13b6cb",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 225,
+      "total_deletions": 23,
+      "accepted_lines": 225,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/f5cd6ac96ae1d464ec6fe3b885d9239830c7c7e3825876d81830182f57c1b975"
+    },
+    "66260d31ac870b06": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47620899-54dc-491f-a700-a8ecfcc5588d",
+        "model": "MiniMax-M3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 0,
+      "overriden_lines": 1,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/e022f57baa1d07f655115833950bbd217db3c5f31ca74c1de02634150d6fea76"
+    }
+  }
+}
