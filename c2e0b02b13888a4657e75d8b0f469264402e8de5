@@ -1,0 +1,40 @@
+skills/09-数据结构与算法/二叉树.md
+  7b96ef70de5f38d4 4,7-9,20-23,97-318
+DASHBOARD.md
+  7b96ef70de5f38d4 6,12,68,71,87,101,107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.7",
+  "base_commit_sha": "c2e0b02b13888a4657e75d8b0f469264402e8de5",
+  "prompts": {
+    "631c7501c84db6a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "47a9afc8-803f-49d5-85d2-595b3c13b6cb",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/94a9f0d00d1be150672e62441abea69bf501d3761cba8ef2838976b423294ad3"
+    },
+    "7b96ef70de5f38d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3934784c-17da-4e96-9c4e-9faad72940ff",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 247,
+      "total_deletions": 25,
+      "accepted_lines": 243,
+      "overriden_lines": 2,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/9c419390c8c4b78c9a8f94232e6304430cfe138498dd4088ec67b1d474925ffb"
+    }
+  }
+}
