@@ -1,0 +1,24 @@
+skills/04-性能优化/内存优化.md
+  86baea06925e9850 56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.7",
+  "base_commit_sha": "3e0b99fd59a55e5bcf8b7aebd5c041808a37f574",
+  "prompts": {
+    "86baea06925e9850": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aa38e725-0ec7-4751-9132-a9440bb5a554",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 12,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/f146d4b2ef33dcbf935ea3a1ffd63cf598b7896dc285787fd61831d5e60ddae3"
+    }
+  }
+}
