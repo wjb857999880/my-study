@@ -1,0 +1,40 @@
+DASHBOARD.md
+  86baea06925e9850 6,12,67,70,81,100,102,104
+skills/04-性能优化/内存优化.md
+  86baea06925e9850 4,7-9,20-23,104-277
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.7",
+  "base_commit_sha": "b1918db684ea6611fd25f174fb495752877be8e2",
+  "prompts": {
+    "7b96ef70de5f38d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3934784c-17da-4e96-9c4e-9faad72940ff",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/1b755505fa8cb09364535538b7560aa7728f47e7831433f2b88f6c60d8633b11"
+    },
+    "86baea06925e9850": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aa38e725-0ec7-4751-9132-a9440bb5a554",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 199,
+      "total_deletions": 27,
+      "accepted_lines": 197,
+      "overriden_lines": 1,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/bbd1807009a1e7f03b9718aaf825996cfe3ff20c099f495cf064e9229e4b8992"
+    }
+  }
+}
