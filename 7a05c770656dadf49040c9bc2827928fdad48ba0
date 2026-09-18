@@ -1,0 +1,81 @@
+skills/10-系统设计/列表与流式架构.md
+  ab14026e4d70667e 93-189
+  b29f8fd5a14d7e61 4,7-9,20-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.8",
+  "base_commit_sha": "7a05c770656dadf49040c9bc2827928fdad48ba0",
+  "prompts": {
+    "629b8cdc418fedec": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f0a9489c-0486-4c84-bd03-4e4f36a6a0c5",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 6,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/b1b49516094e8fa0ef645a7b1c75c296c9f54cb45ef17bb1af50818552646593"
+    },
+    "86baea06925e9850": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aa38e725-0ec7-4751-9132-a9440bb5a554",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/9fb33c617771c4d04b58654b94db7d7d09d94f48a7722e7bba1a08808f1ee50c"
+    },
+    "ab14026e4d70667e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0e0acc52-98eb-4f09-be71-fdd090a602fa",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 98,
+      "total_deletions": 2,
+      "accepted_lines": 97,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/f73bd481c58f1a53e984e90d4ecf582cba933d880351041a051750e553e2f83e"
+    },
+    "b29f8fd5a14d7e61": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a8ec017-5fcb-4f9f-a085-1acdaf1a497d",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 19,
+      "accepted_lines": 20,
+      "overriden_lines": 0,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/aa80b556cbbd974aca6c91a51de14f7b0e116895e649f30f3ca8fdc5c192e7dc"
+    },
+    "e227a8fd40f081f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7cfa4793-77ab-4d43-9710-bb069423ac44",
+        "model": "glm-5.3"
+      },
+      "human_author": "wujiabao <wujiabao@cvte.com>",
+      "messages": [],
+      "total_additions": 12,
+      "total_deletions": 10,
+      "accepted_lines": 0,
+      "overriden_lines": 3,
+      "messages_url": "https://gitai.gz.cvte.cn/cas/d42e08380f56c9c735a139530a68acbe68467740c94aad5f55a510835ad2b717"
+    }
+  }
+}
